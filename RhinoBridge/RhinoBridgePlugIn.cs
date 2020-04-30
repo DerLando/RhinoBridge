@@ -1,5 +1,6 @@
 ﻿using bridge_c_sharp_plugin;
 using Rhino;
+using RhinoBridge.Converters;
 
 namespace RhinoBridge
 {
@@ -49,7 +50,8 @@ namespace RhinoBridge
 
         private void BridgeImporterOnRaiseAssetImport(AssetExportEventArgs e)
         {
-            RhinoApp.WriteLine(e.Asset.ToString());
+            var mat = AssetConverter.Convert(e.Asset);
+
         }
 
         public void EndServer()
