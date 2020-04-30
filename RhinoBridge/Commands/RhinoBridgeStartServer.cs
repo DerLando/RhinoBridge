@@ -4,31 +4,33 @@ using Rhino.Commands;
 
 namespace RhinoBridge.Commands
 {
-    public class rbTestCommand : Command
+    public class RhinoBridgeStartServer : Command
     {
-        static rbTestCommand _instance;
-        public rbTestCommand()
+        static RhinoBridgeStartServer _instance;
+        public RhinoBridgeStartServer()
         {
             _instance = this;
         }
 
-        ///<summary>The only instance of the rbTestCommand command.</summary>
-        public static rbTestCommand Instance
+        ///<summary>The only instance of the RhinoBridgeStartServer command.</summary>
+        public static RhinoBridgeStartServer Instance
         {
             get { return _instance; }
         }
 
         public override string EnglishName
         {
-            get { return "rbTestCommand"; }
+            get { return "RhinoBridgeStartServer"; }
         }
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
             // TODO: complete command.
 
-            // Start the bridge server
             RhinoBridgePlugIn.Instance.StartServer();
+
+            var port = 24981;
+            RhinoApp.WriteLine($"RhinoBridge server listening for custom socket exports on port {port}");
 
             return Result.Success;
         }

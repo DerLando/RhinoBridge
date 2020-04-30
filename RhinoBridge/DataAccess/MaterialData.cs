@@ -12,24 +12,8 @@ namespace RhinoBridge.DataAccess
     /// <summary>
     /// Handles access to Material data in a rhino document
     /// </summary>
-    public class MaterialData
+    public class MaterialData : DataAccessBase
     {
-        private readonly RhinoDoc _doc;
-
-        #region Constructor
-
-        public MaterialData()
-        {
-            _doc = RhinoDoc.ActiveDoc;
-        }
-
-        public MaterialData(RhinoDoc doc)
-        {
-            _doc = doc;
-        }
-
-        #endregion
-
         public int AddMaterial(Material material)
         {
             return _doc.Materials.Add(material);

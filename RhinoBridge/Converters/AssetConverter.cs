@@ -21,7 +21,11 @@ namespace RhinoBridge.Converters
         /// <param name="asset">asset to convert</param>
         public static Material Convert(Asset asset)
         {
-            Material mat = new Material();
+            var mat = new Material
+            {
+                Name = asset.name
+            };
+
 
             // this could be nicer with pbr materials in rhino 7
             foreach (var texture in asset.textures)
