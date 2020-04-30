@@ -1,6 +1,7 @@
 ﻿using bridge_c_sharp_plugin;
 using Rhino;
 using RhinoBridge.Converters;
+using RhinoBridge.DataAccess;
 
 namespace RhinoBridge
 {
@@ -50,8 +51,12 @@ namespace RhinoBridge
 
         private void BridgeImporterOnRaiseAssetImport(AssetExportEventArgs e)
         {
+            // Convert asset to material
             var mat = AssetConverter.Convert(e.Asset);
 
+            // Add a textured sphere to the document
+            var materialData = new MaterialData();
+            materialData.AddTexturedSphere(mat);
         }
 
         public void EndServer()

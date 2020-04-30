@@ -57,6 +57,7 @@
     <Compile Include="Commands\rbTestCommand.cs" />
     <Compile Include="Converters\AssetConverter.cs" />
     <Compile Include="Converters\TextureType.cs" />
+    <Compile Include="DataAccess\MaterialData.cs" />
     <Compile Include="RhinoBridgePlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

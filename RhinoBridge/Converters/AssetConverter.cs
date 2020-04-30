@@ -23,6 +23,7 @@ namespace RhinoBridge.Converters
         {
             Material mat = new Material();
 
+            // this could be nicer with pbr materials in rhino 7
             foreach (var texture in asset.textures)
             {
                 switch (GetTextureType(texture))
@@ -55,6 +56,11 @@ namespace RhinoBridge.Converters
 
         }
 
+        /// <summary>
+        /// Gets the <see cref="TextureType"/> associated with a given <see cref="bridge_c_sharp_plugin.Texture"/>
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <returns></returns>
         public static TextureType GetTextureType(bridge_c_sharp_plugin.Texture texture)
         {
             if (texture.type == "albedo") return TextureType.Albedo;
