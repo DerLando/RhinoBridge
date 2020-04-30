@@ -3,7 +3,7 @@
 namespace bridge_c_sharp_plugin
 {
     //This class represents the data structure of Bridge exported JSON.
-    struct Asset
+    public struct Asset
     {
         public string resolution;
         public int resolutionValue;
@@ -28,7 +28,7 @@ namespace bridge_c_sharp_plugin
         public List<MetaElement> meta;
     }
 
-    struct Texture
+    public struct Texture
     {
         public string name;
         public string path;
@@ -37,7 +37,7 @@ namespace bridge_c_sharp_plugin
         public string type;
     }
 
-    struct Geometry
+    public struct Geometry
     {
         public string path;
         public string name;
@@ -45,7 +45,7 @@ namespace bridge_c_sharp_plugin
         public string type;
     }
 
-    struct GeometryLOD
+    public struct GeometryLOD
     {
         public string lod;
         public string path;
@@ -54,7 +54,7 @@ namespace bridge_c_sharp_plugin
         public string type;
     }
 
-    struct PackedTextures
+    public struct PackedTextures
     {
         public string name;
         public string path;
@@ -64,7 +64,7 @@ namespace bridge_c_sharp_plugin
         public ChannelsData channelsData;
     }
 
-    struct ChannelsData
+    public struct ChannelsData
     {
         public ChannelInfo Red;
         public ChannelInfo Green;
@@ -73,13 +73,13 @@ namespace bridge_c_sharp_plugin
         public ChannelInfo Grayscale;
     }
 
-    struct ChannelInfo
+    public struct ChannelInfo
     {
         public string type;
         public string channel;
     }
 
-    struct MetaElement
+    public struct MetaElement
     {
         public string value;
         public string name;

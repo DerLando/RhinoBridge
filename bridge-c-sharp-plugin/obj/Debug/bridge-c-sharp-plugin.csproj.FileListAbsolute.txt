@@ -16,3 +16,12 @@ D:\Repositories\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-s
 D:\Repositories\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csproj.CopyComplete
 D:\Repositories\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.exe
 D:\Repositories\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.pdb
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\bin\Debug\bridge-c-sharp-plugin.pdb
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\bin\Debug\Newtonsoft.Json.dll
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csproj.CoreCompileInputs.cache
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csproj.CopyComplete
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.pdb
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csprojAssemblyReference.cache
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\bin\Debug\bridge-c-sharp-plugin.dll.config
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\bin\Debug\bridge-c-sharp-plugin.dll
+D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.dll

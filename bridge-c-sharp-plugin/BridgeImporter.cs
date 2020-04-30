@@ -43,18 +43,30 @@ using System.Collections.Generic;
 
 namespace bridge_c_sharp_plugin
 {
-    class ms_bridge_importer
+    public static class BridgeImporter
     {
-        static void Main(string[] args)
+        public delegate void AssetImportEventHandler(AssetExportEventArgs e);
+
+        public static event AssetImportEventHandler RaiseAssetImport;
+
+        static void OnRaiseAssetImport(AssetExportEventArgs e)
         {
-            //Starts the server in background.
-            Bridge_Server listener = new Bridge_Server();
-            listener.StartServer();
-            //Press any key will close the server and exit the console app.
-            Console.ReadLine();
-            listener.EndServer();
+            // Make a temporary copy of the event to avoid possibility of
+            // a race condition if the last subscriber unsubscribes
+            // immediately after the null check and before the event is raised.
+            var handler = RaiseAssetImport;
+
+            // Event will be null if there are no subscribers
+            if (handler != null)
+            {
+                handler.Invoke(e);
+            }
         }
 
+        /// <summary>
+        /// The server calls this!
+        /// </summary>
+        /// <param name="jsonData"></param>
         public static void AssetImporter (string jsonData)
         {
             List<Asset> assets = new List<Asset>();
@@ -69,8 +81,8 @@ namespace bridge_c_sharp_plugin
 
             foreach (Asset asset in assets)
             {
-                //Prints some values from the parsed json data.
-                PrintProperties(asset);
+                // Raise the asset imported event
+                OnRaiseAssetImport(new AssetExportEventArgs(asset));
             }
         }
 

@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace bridge_c_sharp_plugin
 {
-    class Bridge_Server
+    public class BridgeServer
     {
         private TcpListener tcpListener;
         private Thread tcpListenerThread;
@@ -56,7 +56,7 @@ namespace bridge_c_sharp_plugin
 
                             if (receivedMessage.Count > 0)
                             {
-                                ms_bridge_importer.AssetImporter(receivedMessage[0]);
+                                BridgeImporter.AssetImporter(receivedMessage[0]);
                                 receivedMessage.RemoveAt(0);
                             }
                         }
