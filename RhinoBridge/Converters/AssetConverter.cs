@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,12 +50,13 @@ namespace RhinoBridge.Converters
                     case TextureType.Roughness:
                         break;
                     case TextureType.Specular:
-                        mat.SetEnvironmentTexture(texture.path);
                         break;
                     case TextureType.Undefined:
                         break;
                 }
             }
+
+            mat.DiffuseColor = GetAverageColor(asset);
 
             return mat;
 
@@ -77,6 +79,16 @@ namespace RhinoBridge.Converters
             if (texture.type == "specular") return TextureType.Specular;
 
             return TextureType.Undefined;
+        }
+
+        /// <summary>
+        /// Gets the average color of an asset
+        /// </summary>
+        /// <param name="asset"></param>
+        /// <returns></returns>
+        public static Color GetAverageColor(Asset asset)
+        {
+            return ColorTranslator.FromHtml(asset.averageColor);
         }
     }
 }
