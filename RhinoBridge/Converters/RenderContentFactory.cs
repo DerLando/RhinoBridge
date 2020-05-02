@@ -10,10 +10,13 @@ using RhinoBridge.Extensions;
 
 namespace RhinoBridge.Converters
 {
+    /// <summary>
+    /// Factory to create different types of <see cref="RenderContent"/>
+    /// </summary>
     public static class RenderContentFactory
     {
         /// <summary>
-        /// Creates a RenderMaterial, which can be added to a rhino document
+        /// Creates a <see cref="RenderMaterial"/>, which can be added to a rhino document
         /// from a given Asset
         /// </summary>
         /// <param name="asset">The asset to convert</param>
@@ -48,7 +51,7 @@ namespace RhinoBridge.Converters
         }
 
         /// <summary>
-        /// Creates a new <see cref="RenderMaterial"/> Instance
+        /// Creates a new empty <see cref="RenderMaterial"/> Instance
         /// </summary>
         /// <returns></returns>
         private static RenderMaterial CreateEmptyMaterial()

@@ -49,11 +49,18 @@ namespace RhinoBridge
             BridgeImporter.RaiseAssetImport += BridgeImporterOnRaiseAssetImport;
         }
 
+        /// <summary>
+        /// Handle Asset export events coming from quixel bridge
+        /// </summary>
+        /// <param name="e"></param>
         private void BridgeImporterOnRaiseAssetImport(AssetExportEventArgs e)
         {
             new ImportEventMachine(e).Execute();
         }
 
+        /// <summary>
+        /// Ends the server
+        /// </summary>
         public void EndServer()
         {
             Listener?.EndServer();

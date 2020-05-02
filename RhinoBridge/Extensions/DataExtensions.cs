@@ -11,6 +11,9 @@ using RhinoBridge.Data;
 
 namespace RhinoBridge.Extensions
 {
+    /// <summary>
+    /// Conversion Extensions for different Data types
+    /// </summary>
     public static class DataExtensions
     {
         /// <summary>

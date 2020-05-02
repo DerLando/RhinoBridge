@@ -18,16 +18,30 @@ namespace RhinoBridge.DataAccess
     {
         public MaterialData(RhinoDoc doc) : base(doc) { }
 
+        /// <summary>
+        /// Add an material to the document
+        /// </summary>
+        /// <param name="material">The material to add</param>
+        /// <returns></returns>
         public int AddMaterial(Material material)
         {
             return _doc.Materials.Add(material);
         }
 
+        /// <summary>
+        /// Add a RenderMaterial to the document
+        /// </summary>
+        /// <param name="material">The material to add</param>
+        /// <returns></returns>
         public bool AddRenderMaterial(RenderMaterial material)
         {
             return _doc.RenderMaterials.Add(material);
         }
 
+        /// <summary>
+        /// Adds a textured sphere with the given material assigned to it
+        /// </summary>
+        /// <param name="material">The material to assign to the sphere</param>
         public void AddTexturedSphere(Material material)
         {
             // create sphere
@@ -48,6 +62,10 @@ namespace RhinoBridge.DataAccess
             sphereObject.CommitChanges();
         }
 
+        /// <summary>
+        /// Adds a textured sphere with the given material assigned to it
+        /// </summary>
+        /// <param name="material">The material to assign to the sphere</param>
         public void AddTexturedSphere(RenderMaterial material)
         {
             // create sphere
