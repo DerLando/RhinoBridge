@@ -29,7 +29,11 @@ namespace RhinoBridge.Converters
                 Name = asset.name
             };
 
-            var pbr = mat.ConvertToPhysicallyBased();
+            // create new bpr style rendermaterial
+            var pbr = RenderContentType
+                    .NewContentFromTypeId(
+                        ContentUuids.PhysicallyBasedMaterialType)
+                as RenderMaterial;
 
             // this could be nicer with pbr materials in rhino 7
             foreach (var texture in asset.textures)
@@ -59,7 +63,6 @@ namespace RhinoBridge.Converters
                 //}
                 var convertedTexture = Convert(texture);
 
-                pbr.SetTexture(convertedTexture, convertedTexture.TextureType);
                 mat.SetTexture(convertedTexture, convertedTexture.TextureType);
             }
 
@@ -109,6 +112,7 @@ namespace RhinoBridge.Converters
         /// <returns></returns>
         public static TextureInformation ExtractInformation(Texture texture)
         {
+            // TODO: Extract child slot name
             return new TextureInformation(texture.path, ExtractType(texture));
         }
 

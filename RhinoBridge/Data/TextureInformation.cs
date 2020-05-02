@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rhino.DocObjects;
+using Rhino.Render;
 
 namespace RhinoBridge.Data
 {
@@ -22,10 +23,16 @@ namespace RhinoBridge.Data
         /// </summary>
         public readonly TextureType Type;
 
-        public TextureInformation(string filePath, TextureType type)
+        /// <summary>
+        /// Child slot name of texture type
+        /// </summary>
+        private readonly string ChildSlotName;
+
+        public TextureInformation(string filePath, TextureType type, string childSlotName)
         {
             FilePath = filePath;
             Type = type;
+            ChildSlotName = childSlotName;
         }
     }
 }
