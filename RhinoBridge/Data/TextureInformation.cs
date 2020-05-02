@@ -26,7 +26,7 @@ namespace RhinoBridge.Data
         /// <summary>
         /// Child slot name of texture type
         /// </summary>
-        private readonly string ChildSlotName;
+        public readonly string ChildSlotName;
 
         public TextureInformation(string filePath, TextureType type, string childSlotName)
         {

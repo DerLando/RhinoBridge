@@ -26,11 +26,16 @@ namespace RhinoBridge.DataAccess
             // Give some feedback
             RhinoApp.WriteLine($"Importing asset {_asset.name}");
 
-            // Convert asset to material
-            var mat = AssetConverter.Convert(_asset);
+            //// Convert asset to material
+            //var mat = AssetConverter.Convert(_asset);
 
-            // Add a textured sphere to the document
-            var materialData = new MaterialData();
+            //// Add a textured sphere to the document
+            //var materialData = new MaterialData();
+            //materialData.AddTexturedSphere(mat);
+
+            var mat = RenderContentFactory.CreateMaterial(_asset, _doc);
+
+            var materialData = new MaterialData(_doc);
             materialData.AddTexturedSphere(mat);
 
             // Redraw scene and give feedback

@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RhinoCommon">
-      <HintPath>C:\Program Files\Rhino 7 WIP\System\RhinoCommon.dll</HintPath>
+      <HintPath>C:\Program Files\Rhino WIP\System\RhinoCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -56,11 +56,13 @@
   <ItemGroup>
     <Compile Include="Commands\RhinoBridgeStartServer.cs" />
     <Compile Include="Converters\AssetConverter.cs" />
+    <Compile Include="Converters\RenderContentFactory.cs" />
     <Compile Include="Converters\TextureType.cs" />
     <Compile Include="DataAccess\DataAccessBase.cs" />
     <Compile Include="DataAccess\ImportEventMachine.cs" />
     <Compile Include="DataAccess\MaterialData.cs" />
     <Compile Include="Data\TextureInformation.cs" />
+    <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="RhinoBridgePlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

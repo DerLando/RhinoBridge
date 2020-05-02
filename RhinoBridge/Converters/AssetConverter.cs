@@ -112,8 +112,13 @@ namespace RhinoBridge.Converters
         /// <returns></returns>
         public static TextureInformation ExtractInformation(Texture texture)
         {
-            // TODO: Extract child slot name
-            return new TextureInformation(texture.path, ExtractType(texture));
+            // Extract the texture type
+            var type = ExtractType(texture);
+
+            // convert type to slotName
+            var slotName = RenderMaterial.PhysicallyBased.ChildSlotNames.FromTextureType(type);
+
+            return new TextureInformation(texture.path, type, slotName);
         }
 
         /// <summary>
