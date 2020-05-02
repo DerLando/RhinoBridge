@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using bridge_c_sharp_plugin;
 using Rhino;
 using RhinoBridge.Converters;
+using RhinoBridge.Factories;
 
 namespace RhinoBridge.DataAccess
 {
@@ -26,6 +27,32 @@ namespace RhinoBridge.DataAccess
             // Give some feedback
             RhinoApp.WriteLine($"Importing asset {_asset.name}");
 
+            // get the asset type
+            var type = AssetConverter.ExtractType(_asset);
+
+            switch (type)
+            {
+                case Data.AssetType.Surface:
+                    Execute_Surface();
+                    break;
+                case Data.AssetType.Prop:
+                    Execute_Prop();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // Redraw scene and give feedback
+            RhinoApp.WriteLine($"Finished importing {_asset.name}");
+        }
+
+        private void Execute_Prop()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Execute_Surface()
+        {
             // create the render material from the asset
             var mat = RenderContentFactory.CreateMaterial(_asset, _doc);
 
@@ -34,9 +61,6 @@ namespace RhinoBridge.DataAccess
 
             // add preview geometry
             materialData.AddTexturedSphere(mat);
-
-            // Redraw scene and give feedback
-            RhinoApp.WriteLine($"Finished importing {_asset.name}");
         }
     }
 }

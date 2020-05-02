@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using bridge_c_sharp_plugin;
+﻿using bridge_c_sharp_plugin;
 using Rhino;
 using Rhino.Render;
 using RhinoBridge.Extensions;
 
-namespace RhinoBridge.Converters
+namespace RhinoBridge.Factories
 {
     /// <summary>
     /// Factory to create different types of <see cref="RenderContent"/>

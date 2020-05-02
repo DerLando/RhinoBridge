@@ -1,4 +1,5 @@
-﻿using Rhino.DocObjects;
+﻿using bridge_c_sharp_plugin;
+using Rhino.DocObjects;
 using Rhino.Render;
 using RhinoBridge.Data;
 using RhinoBridge.Errors;
@@ -31,6 +32,19 @@ namespace RhinoBridge.Converters
         }
 
         /// <summary>
+        /// Extracts the <see cref="AssetType"/> from a given <see cref="Asset"/>
+        /// </summary>
+        /// <param name="asset"></param>
+        /// <returns></returns>
+        public static AssetType ExtractType(Asset asset)
+        {
+            if (asset.type == "surface") return AssetType.Surface;
+            if (asset.type == "3d") return AssetType.Prop;
+
+            throw new AssetTypeNotImplementedException(asset.type);
+        }
+
+        /// <summary>
         /// Extracts the texture information of a given texture
         /// </summary>
         /// <param name="texture"></param>
@@ -44,6 +58,31 @@ namespace RhinoBridge.Converters
             var slotName = RenderMaterial.PhysicallyBased.ChildSlotNames.FromTextureType(type);
 
             return new TextureInformation(texture.path, type, slotName);
+        }
+
+        /// <summary>
+        /// Extracts the <see cref="GeometryFormat"/> of a given <see cref="Geometry"/>
+        /// </summary>
+        /// <param name="geometry">The geometry to extract the format of</param>
+        /// <returns></returns>
+        public static GeometryFormat ExtractFormat(Geometry geometry)
+        {
+            if (geometry.format == "fbx") return GeometryFormat.Fbx;
+
+            throw new GeometryFormatNotImplementedException(geometry.format);
+        }
+
+        /// <summary>
+        /// Extracts the relevant <see cref="GeometryInformation"/> from a given <see cref="Geometry"/>
+        /// </summary>
+        /// <param name="geometry">The geometry to extract information from</param>
+        /// <returns></returns>
+        public static GeometryInformation ExtractInformation(Geometry geometry)
+        {
+            // Extract the geometry format
+            var format = ExtractFormat(geometry);
+
+            return new GeometryInformation(format, geometry.path);
         }
 
     }
