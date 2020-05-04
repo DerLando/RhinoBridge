@@ -74,17 +74,60 @@ namespace RhinoBridge.DataAccess
             // add sphere to object table
             var id = _doc.Objects.AddSphere(sphere);
 
-            // get sphere object
-            var sphereObject = new ObjRef(id).Object();
+            // Texture the sphere
+            TextureExistingGeometry(material, id);
+        }
 
-            // Add material to document
+        /// <summary>
+        /// Gets the underlying <see cref="RhinoObject"/> instance for a given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private RhinoObject GetObjectFromId(Guid id)
+        {
+            return new ObjRef(id).Object();
+        }
+
+        /// <summary>
+        /// Assigns a <see cref="RenderMaterial"/> to a <see cref="RhinoObject"/>
+        /// </summary>
+        /// <param name="material"></param>
+        /// <param name="id"></param>
+        private void AssignMaterialToObject(RenderMaterial material, Guid id)
+        {
+            // get the object
+            var obj = GetObjectFromId(id);
+
+            // call self with object
+            AssignMaterialToObject(material, obj);
+        }
+
+        /// <summary>
+        /// Assigns a <see cref="RenderMaterial"/> to a <see cref="RhinoObject"/>
+        /// </summary>
+        /// <param name="material"></param>
+        /// <param name="obj"></param>
+        private void AssignMaterialToObject(RenderMaterial material, RhinoObject obj)
+        {
+            obj.Attributes.MaterialSource = ObjectMaterialSource.MaterialFromObject;
+            obj.RenderMaterial = material;
+            obj.CommitChanges();
+        }
+
+        /// <summary>
+        /// Textures a geometry, already existing inside of the rhino document
+        /// </summary>
+        /// <param name="material"></param>
+        /// <param name="id"></param>
+        public void TextureExistingGeometry(RenderMaterial material, Guid id)
+        {
+            // Add material to table
             AddRenderMaterial(material);
 
             // assign material
-            sphereObject.Attributes.MaterialSource = ObjectMaterialSource.MaterialFromObject;
-            sphereObject.RenderMaterial = material;
-            sphereObject.CommitChanges();
+            AssignMaterialToObject(material, id);
         }
+        
 
     }
 }

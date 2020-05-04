@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using bridge_c_sharp_plugin;
 using Rhino;
+using RhinoBridge.Commands;
 using RhinoBridge.Converters;
+using RhinoBridge.Extensions;
 using RhinoBridge.Factories;
 
 namespace RhinoBridge.DataAccess
@@ -15,6 +17,24 @@ namespace RhinoBridge.DataAccess
     /// </summary>
     public class ImportEventMachine : DataAccessBase
     {
+        public delegate void PropImportEventHandler(GeometryExportEventArgs e);
+
+        public static event PropImportEventHandler RaisePropImport;
+
+        static void OnRaisePropImport(GeometryExportEventArgs e)
+        {
+            // Make a temporary copy of the event to avoid possibility of
+            // a race condition if the last subscriber unsubscribes
+            // immediately after the null check and before the event is raised.
+            var handler = RaisePropImport;
+
+            // Event will be null if there are no subscribers
+            if (handler != null)
+            {
+                handler.Invoke(e);
+            }
+        }
+
         private readonly Asset _asset;
 
         public ImportEventMachine(AssetExportEventArgs args)
@@ -42,13 +62,33 @@ namespace RhinoBridge.DataAccess
                     throw new ArgumentOutOfRangeException();
             }
 
-            // Redraw scene and give feedback
-            RhinoApp.WriteLine($"Finished importing {_asset.name}");
+            //// Redraw scene and give feedback
+            //RhinoApp.WriteLine($"Finished importing {_asset.name}");
         }
 
         private void Execute_Prop()
         {
-            throw new NotImplementedException();
+            //// get prop data access
+            //var propData = new PropData(_doc);
+
+            //// iterate over asset geometries
+            //foreach (var geometry in _asset.geometry)
+            //{
+            //    // get asset geometry info
+            //    var info = geometry.ToGeometryInformation();
+
+            //    // add geometry
+            //    propData.AddTexturedGeometry(info);
+
+            //    // TODO: Add materials
+            //}
+
+            RhinoApp.WriteLine(
+                $"Dynamic import of 3d assets is not currently supported. Please run the {RhinoBridgeImport3dAsset.Instance.EnglishName} command instead.");
+
+            // set backing fields on command
+            RhinoBridgeImport3dAsset.Instance.SetInfos(from geom in _asset.geometry select geom.ToGeometryInformation());
+            RhinoBridgeImport3dAsset.Instance.SetAsset(_asset);
         }
 
         private void Execute_Surface()
@@ -61,6 +101,9 @@ namespace RhinoBridge.DataAccess
 
             // add preview geometry
             materialData.AddTexturedSphere(mat);
+
+            RhinoApp.WriteLine($"Finished importing {_asset.name}");
+
         }
     }
 }

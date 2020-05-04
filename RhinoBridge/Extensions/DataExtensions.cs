@@ -49,5 +49,15 @@ namespace RhinoBridge.Extensions
         {
             return RenderTexture.NewBitmapTexture(simTex, doc);
         }
+
+        /// <summary>
+        /// Converts a <see cref="Geometry"/> to a <see cref="GeometryInformation"/>
+        /// </summary>
+        /// <param name="geometry"></param>
+        /// <returns></returns>
+        public static GeometryInformation ToGeometryInformation(this Geometry geometry)
+        {
+            return AssetConverter.ExtractInformation(geometry);
+        }
     }
 }

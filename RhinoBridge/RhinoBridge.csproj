@@ -54,12 +54,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\RhinoBridgeImport3dAsset.cs" />
     <Compile Include="Commands\RhinoBridgeStartServer.cs" />
     <Compile Include="Converters\AssetConverter.cs" />
+    <Compile Include="DataAccess\GeometryExportEventArgs.cs" />
+    <Compile Include="DataAccess\PropData.cs" />
     <Compile Include="Data\GeometryFormat.cs" />
     <Compile Include="Data\GeometryInformation.cs" />
-    <Compile Include="Errors\AssetTypeNotImplementedException - Kopieren.cs" />
     <Compile Include="Errors\AssetTypeNotImplementedException.cs" />
+    <Compile Include="Errors\GeometryFormatNotImplementedException.cs" />
     <Compile Include="Factories\RenderContentFactory.cs" />
     <Compile Include="DataAccess\DataAccessBase.cs" />
     <Compile Include="DataAccess\ImportEventMachine.cs" />
