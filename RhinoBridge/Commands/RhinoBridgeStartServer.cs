@@ -29,8 +29,7 @@ namespace RhinoBridge.Commands
 
             RhinoBridgePlugIn.Instance.StartServer();
 
-            var port = 24981;
-            RhinoApp.WriteLine($"RhinoBridge server listening for custom socket exports on port {port}");
+            RhinoApp.WriteLine($"RhinoBridge server listening for custom socket exports on port {RhinoBridgePlugIn.Instance.Port}");
 
             return Result.Success;
         }

@@ -1,7 +1,14 @@
-﻿using bridge_c_sharp_plugin;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
+using bridge_c_sharp_plugin;
 using Rhino;
+using Rhino.UI;
 using RhinoBridge.Converters;
 using RhinoBridge.DataAccess;
+using RhinoBridge.UI.Views;
 
 namespace RhinoBridge
 {
@@ -14,11 +21,13 @@ namespace RhinoBridge
     /// "Show All Files" to see it in the "Solution Explorer" window).</para>
     ///</summary>
     public class RhinoBridgePlugIn : Rhino.PlugIns.PlugIn
-
     {
         public RhinoBridgePlugIn()
         {
             Instance = this;
+
+            // load settings
+            LoadSettings();
         }
 
         ///<summary>Gets the only instance of the RhinoBridgePlugIn plug-in.</summary>
@@ -26,6 +35,51 @@ namespace RhinoBridge
         {
             get; private set;
         }
+
+        #region Settings
+
+        private const int DEFAULT_PORT = 24981;
+        private const string PORT_KEY = "PORT";
+        public int Port => GetPort();
+
+        private void LoadSettings()
+        {
+        }
+
+        /// <summary>
+        /// Gets the port from the persistent settings
+        /// </summary>
+        /// <returns></returns>
+        private int GetPort()
+        {
+            return Settings.TryGetInteger(PORT_KEY, out var port) ? port : DEFAULT_PORT;
+        }
+
+        /// <summary>
+        /// Set a different port number for the bridge server
+        /// </summary>
+        /// <param name="port">The port number to use</param>
+        public void SetPort(int port)
+        {
+            // check for bounds that make sense
+            if (port < 0 | port > IPEndPoint.MaxPort)
+                return;
+
+            Listener.MessageReceivingPort = port;
+
+            // Store the port to the settings
+            Settings.SetInteger(PORT_KEY, port);
+        }
+
+        /// <summary>
+        /// Restores all settings to their default values
+        /// </summary>
+        public void RestoreDefaultSettings()
+        {
+            SetPort(DEFAULT_PORT);
+        }
+
+        #endregion
 
         /// <summary>
         /// The <see cref="BridgeServer"/> that listens for export events
@@ -42,7 +96,11 @@ namespace RhinoBridge
             if (Listener != null) return;
 
             // create a new server
-            Listener = new BridgeServer();
+            Listener = new BridgeServer
+            {
+                // use custom port from settings
+                MessageReceivingPort = Port
+            };
 
             // Starts the server in background.
             Listener.StartServer();
@@ -79,6 +137,12 @@ namespace RhinoBridge
             EndServer();
 
             base.OnShutdown();
+        }
+
+        protected override void OptionsDialogPages(List<OptionsDialogPage> pages)
+        {
+            var optionsPage = new PluginSettingsPage("RhinoBridge settings");
+            pages.Add(optionsPage);
         }
     }
 }

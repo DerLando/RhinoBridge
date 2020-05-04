@@ -73,6 +73,10 @@
     <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="RhinoBridgePlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\ViewModels\PluginSettingsViewModel.cs" />
+    <Compile Include="UI\ViewModels\ViewModelBase.cs" />
+    <Compile Include="UI\Views\PluginSettingsPage.cs" />
+    <Compile Include="UI\Views\PluginSettingsPageControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EmbeddedResources\plugin-utility.ico" />

@@ -15,7 +15,7 @@ namespace bridge_c_sharp_plugin
 
         public List<string> receivedMessage = new List<string>();
         //Port number to listen to. Please make sure it is the same in Bridge as well.
-        public int MessageReceivingPort = 24981;
+        public int MessageReceivingPort { get; set; } = 24981;
 
         public void StartServer()
         {
