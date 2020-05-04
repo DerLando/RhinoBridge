@@ -4,6 +4,7 @@ Quixel Bridge PlugIn for Export to Rhinoceros3d
 ## Liability, Warranty, Suggested use cases
 
 This software is in a **very** early stage of development. Please don't use it for any critical production work, as crashes and bugs are almost guaranteed to happen, as there is not enough feedback yet. Until this officially changes, think of *RhinoBridge* as a toy to play around with.
+This plugIn is **not** officially supported, not developed by Quixel. It is a personal project and might lack the professionalism you are searching for in software.
 
 ## Motivation
 
@@ -17,7 +18,13 @@ Currently, only Rhino 7 WIP Version 7.0.20119.13305 and Quixel Bridge Version 20
 
 To Import from Quixel Bridge, run the `_RhinoBridgeStartServer` command inside of Rhino. After that the plugIn is listening for all *Custom Socket Export*s from Quixel Bridge.
 
+![Import Material into Rhino](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Rhino_bridge_import.png)
+
+![Export from quixel bridge](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Quixel_socket_export.png)
+
 To transfer 3d **Assets**, a back-buffer is loaded and Rhino will inform you to run the `_RhinoBridgeImport3dAsset` command.
+
+![Import 3d asset into Rhino](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Rhino_bridge_import_asset.png)
 
 ## Installation
 
