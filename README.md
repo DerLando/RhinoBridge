@@ -28,7 +28,7 @@ To transfer 3d **Assets**, a back-buffer is loaded and Rhino will inform you to 
 
 ## Installation
 
-You can get the latest version of *RhinoBridge* either via the package manager inside of Rhino, using the `_PackageManager` command, or download the latest installable *.rhp* file from **INSERT LINK HERE**
+You can get the latest version of *RhinoBridge* either via the package manager inside of Rhino, using the `_PackageManager` command, or download the latest installable *.rhp* file from https://github.com/DerLando/RhinoBridge/releases/latest
 
 ## Issues
 
