@@ -8,6 +8,7 @@ using Rhino;
 using Rhino.UI;
 using RhinoBridge.Converters;
 using RhinoBridge.DataAccess;
+using RhinoBridge.Settings;
 using RhinoBridge.UI.Views;
 
 namespace RhinoBridge
@@ -25,9 +26,6 @@ namespace RhinoBridge
         public RhinoBridgePlugIn()
         {
             Instance = this;
-
-            // load settings
-            LoadSettings();
         }
 
         ///<summary>Gets the only instance of the RhinoBridgePlugIn plug-in.</summary>
@@ -38,13 +36,13 @@ namespace RhinoBridge
 
         #region Settings
 
+        #region Port
         private const int DEFAULT_PORT = 24981;
         private const string PORT_KEY = "PORT";
+        /// <summary>
+        /// The port the bridge server listens to
+        /// </summary>
         public int Port => GetPort();
-
-        private void LoadSettings()
-        {
-        }
 
         /// <summary>
         /// Gets the port from the persistent settings
@@ -65,11 +63,47 @@ namespace RhinoBridge
             if (port < 0 | port > IPEndPoint.MaxPort)
                 return;
 
-            Listener.MessageReceivingPort = port;
+            // listener might not be initialized if settings change before the server gets started
+            if(Listener != null)
+                Listener.MessageReceivingPort = port;
 
             // Store the port to the settings
             Settings.SetInteger(PORT_KEY, port);
         }
+
+        #endregion
+
+        #region Preview geometry
+
+        private const TexturePreviewGeometryType DEFAULT_PREVIEW_TYPE = TexturePreviewGeometryType.Sphere;
+        private const string PREVIEW_TYPE_KEY = "PREVIEWTYPE";
+        /// <summary>
+        /// The type of geometry to use on texture import as a preview
+        /// </summary>
+        public TexturePreviewGeometryType PreviewType => GetPreviewType();
+
+        /// <summary>
+        /// Gets the preview type from the persistent settings
+        /// </summary>
+        /// <returns></returns>
+        private TexturePreviewGeometryType GetPreviewType()
+        {
+            return Settings.TryGetEnumValue<TexturePreviewGeometryType>(PREVIEW_TYPE_KEY, out var type)
+                ? type
+                : DEFAULT_PREVIEW_TYPE;
+        }
+
+        /// <summary>
+        /// Sets a different type of preview geometry to use
+        /// </summary>
+        /// <param name="type"></param>
+        public void SetPreviewType(TexturePreviewGeometryType type)
+        {
+            // Store the new preview type
+            Settings.SetEnumValue(PREVIEW_TYPE_KEY, type);
+        }
+
+        #endregion
 
         /// <summary>
         /// Restores all settings to their default values
@@ -77,6 +111,7 @@ namespace RhinoBridge
         public void RestoreDefaultSettings()
         {
             SetPort(DEFAULT_PORT);
+            SetPreviewType(DEFAULT_PREVIEW_TYPE);
         }
 
         #endregion

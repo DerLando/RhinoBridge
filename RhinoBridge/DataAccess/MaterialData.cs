@@ -83,6 +83,33 @@ namespace RhinoBridge.DataAccess
             TextureExistingGeometry(material, id);
         }
 
+        public void AddTexturedPlane(RenderMaterial material)
+        {
+            // numeric interval
+            var interval = new Interval(-1.0, 1.0);
+
+            // create plane
+            var plane = new PlaneSurface(Plane.WorldXY, interval, interval);
+
+            // add plane to object table
+            var id = _doc.Objects.AddSurface(plane);
+
+            // Texture the plane
+            TextureExistingGeometry(material, id);
+        }
+
+        public void AddTexturedCube(RenderMaterial material)
+        {
+            // create cube
+            var cube = new Box(new BoundingBox(new Point3d(-1.0, -1.0, -1.0), new Point3d(1.0, 1.0, 1.0)));
+
+            // add cube to object table
+            var id = _doc.Objects.AddBox(cube);
+
+            // Texture the cube
+            TextureExistingGeometry(material, id);
+        }
+
         /// <summary>
         /// Assigns a <see cref="RenderMaterial"/> to a <see cref="RhinoObject"/>
         /// </summary>

@@ -102,8 +102,22 @@ namespace RhinoBridge.DataAccess
             // get data access
             var materialData = new MaterialData(_doc);
 
-            // add preview geometry
-            materialData.AddTexturedSphere(mat);
+            // add a different type of preview geometry, depending on the settings
+            switch (RhinoBridgePlugIn.Instance.PreviewType)
+            {
+                case Settings.TexturePreviewGeometryType.Sphere:
+                    materialData.AddTexturedSphere(mat);
+                    break;
+                case Settings.TexturePreviewGeometryType.Plane:
+                    materialData.AddTexturedPlane(mat);
+                    break;
+                case Settings.TexturePreviewGeometryType.Cube:
+                    materialData.AddTexturedCube(mat);
+                    break;
+                case Settings.TexturePreviewGeometryType.None:
+                    materialData.AddRenderMaterial(mat);
+                    break;
+            }
 
             RhinoApp.WriteLine($"Finished importing {_asset.name}");
 

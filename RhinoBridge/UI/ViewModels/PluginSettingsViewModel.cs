@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RhinoBridge.Settings;
 
 namespace RhinoBridge.UI.ViewModels
 {
@@ -15,6 +16,7 @@ namespace RhinoBridge.UI.ViewModels
         #region private backing fields
 
         private int _port;
+        private TexturePreviewGeometryType _previewType;
 
         #endregion
 
@@ -32,6 +34,19 @@ namespace RhinoBridge.UI.ViewModels
 
         }
 
+        /// <summary>
+        /// The type of preview geometry to use when importing materials
+        /// </summary>
+        public TexturePreviewGeometryType PreviewType
+        {
+            get => _previewType;
+            set
+            {
+                _previewType = value;
+                RaisePropertyChanged(nameof(PreviewType));
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -39,6 +54,7 @@ namespace RhinoBridge.UI.ViewModels
         public PluginSettingsViewModel()
         {
             Port = RhinoBridgePlugIn.Instance.Port;
+            PreviewType = RhinoBridgePlugIn.Instance.PreviewType;
         }
 
         #endregion

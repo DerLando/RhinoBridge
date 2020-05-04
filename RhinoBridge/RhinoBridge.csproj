@@ -73,6 +73,7 @@
     <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="RhinoBridgePlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\TexturePreviewGeometryType.cs" />
     <Compile Include="UI\ViewModels\PluginSettingsViewModel.cs" />
     <Compile Include="UI\ViewModels\ViewModelBase.cs" />
     <Compile Include="UI\Views\PluginSettingsPage.cs" />

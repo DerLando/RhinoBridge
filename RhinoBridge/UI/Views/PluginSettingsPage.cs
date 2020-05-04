@@ -27,7 +27,7 @@ namespace RhinoBridge.UI.Views
         public override bool OnApply()
         {
             RhinoBridgePlugIn.Instance.SetPort(_control.Model.Port);
-
+            RhinoBridgePlugIn.Instance.SetPreviewType(_control.Model.PreviewType);
             return true;
         }
 
