@@ -28,6 +28,7 @@ namespace RhinoBridge.UI.Views
         {
             RhinoBridgePlugIn.Instance.SetPort(_control.Model.Port);
             RhinoBridgePlugIn.Instance.SetPreviewType(_control.Model.PreviewType);
+            RhinoBridgePlugIn.Instance.SetShouldScale(_control.Model.ShouldScale);
             return true;
         }
 

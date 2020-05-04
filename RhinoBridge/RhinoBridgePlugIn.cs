@@ -110,6 +110,25 @@ namespace RhinoBridge
 
         #endregion
 
+        #region Import scale
+
+        private const bool DEFAULT_SCALE_BOOL = false;
+        private const string DEFAULT_SCALE_KEY = "SHOULDSCALE";
+        public bool ShouldScaleMaterials => GetShouldScale();
+
+        private bool GetShouldScale()
+        {
+            return Settings.TryGetBool(DEFAULT_SCALE_KEY, out var shouldScale) ? shouldScale : DEFAULT_SCALE_BOOL;
+        }
+
+        public void SetShouldScale(bool shouldScale)
+        {
+            // Store the new value
+            Settings.SetBool(DEFAULT_SCALE_KEY, shouldScale);
+        }
+
+        #endregion
+
         /// <summary>
         /// Restores all settings to their default values
         /// </summary>
@@ -117,6 +136,7 @@ namespace RhinoBridge
         {
             SetPort(DEFAULT_PORT);
             SetPreviewType(DEFAULT_PREVIEW_TYPE);
+            SetShouldScale(DEFAULT_SCALE_BOOL);
         }
 
         #endregion

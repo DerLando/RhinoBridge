@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using bridge_c_sharp_plugin;
 using Rhino;
+using Rhino.Render;
 using RhinoBridge.Commands;
 using RhinoBridge.Converters;
 using RhinoBridge.Extensions;
@@ -97,7 +98,9 @@ namespace RhinoBridge.DataAccess
         private void Execute_Surface()
         {
             // create the render material from the asset
-            var mat = RenderContentFactory.CreateMaterial(_asset, _doc, RhinoBridgePlugIn.FBX_UNIT_SYSTEM);
+            var mat = RhinoBridgePlugIn.Instance.ShouldScaleMaterials
+                ? RenderContentFactory.CreateMaterial(_asset, _doc, RhinoBridgePlugIn.FBX_UNIT_SYSTEM)
+                : RenderContentFactory.CreateMaterial(_asset, _doc);
 
             // get data access
             var materialData = new MaterialData(_doc);

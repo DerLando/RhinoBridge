@@ -17,6 +17,7 @@ namespace RhinoBridge.UI.ViewModels
 
         private int _port;
         private TexturePreviewGeometryType _previewType;
+        private bool _shouldScale;
 
         #endregion
 
@@ -47,6 +48,19 @@ namespace RhinoBridge.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// If materials should be scaled on import
+        /// </summary>
+        public bool ShouldScale
+        {
+            get => _shouldScale;
+            set
+            {
+                _shouldScale = value;
+                RaisePropertyChanged(nameof(ShouldScale));
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -55,6 +69,7 @@ namespace RhinoBridge.UI.ViewModels
         {
             Port = RhinoBridgePlugIn.Instance.Port;
             PreviewType = RhinoBridgePlugIn.Instance.PreviewType;
+            ShouldScale = RhinoBridgePlugIn.Instance.ShouldScaleMaterials;
         }
 
         #endregion

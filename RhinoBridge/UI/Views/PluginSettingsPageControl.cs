@@ -30,6 +30,15 @@ namespace RhinoBridge.UI.Views
             {Text = "Preview geometry flavor", VerticalAlignment = VerticalAlignment.Center};
         private EnumDropDown<TexturePreviewGeometryType> eDD_PreviewType = new EnumDropDown<TexturePreviewGeometryType>();
 
+        private Label lbl_ShouldScale = new Label
+        {
+            Text = "Scale material import",
+            ToolTip =
+                "PBR materials don't have a sense of scale, this option will try to scale them to a reasonable displacement value",
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        private CheckBox cB_ShouldScale = new CheckBox();
+
         #endregion
 
         public PluginSettingsPageControl()
@@ -49,6 +58,8 @@ namespace RhinoBridge.UI.Views
 
             eDD_PreviewType.SelectedValueBinding.Bind(Model, m => m.PreviewType);
 
+            cB_ShouldScale.CheckedBinding.Bind(Model, m => m.ShouldScale);
+
             // create the layout
             var layout = new DynamicLayout
             {
@@ -66,6 +77,7 @@ namespace RhinoBridge.UI.Views
             group = new DynamicGroup();
             group.Title = "Import settings";
             group.AddRow(new DynamicRow(new Control[]{lbl_PreviewType, eDD_PreviewType}));
+            group.AddRow(new DynamicRow(new Control[]{lbl_ShouldScale, cB_ShouldScale}));
             layout.Add(group.Create(layout));
 
             // Add null and set content
