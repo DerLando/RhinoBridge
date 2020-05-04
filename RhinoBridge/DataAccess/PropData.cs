@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Rhino;
 using Rhino.Commands;
+using Rhino.DocObjects;
+using Rhino.Geometry;
 using Rhino.Render;
 using RhinoBridge.Data;
 
@@ -41,8 +43,16 @@ namespace RhinoBridge.DataAccess
             var script = BuildScript(information);
             RhinoApp.RunScript(script, false);
 
+            // get the id
+            var id = _doc.Objects.GetSelectedObjects(false, false).First().Id;
+
+            // props come in mapped with their z axis to the rhino y axis,
+            // we need to rotate them around the x axis by pi/2
+            var obj = GetObjectFromId(id);
+            RemapPropAxis(obj);
+
             // the imported asset will be selected
-            return _doc.Objects.GetSelectedObjects(false, false).First().Id;
+            return id;
         }
 
         /// <summary>
@@ -62,14 +72,35 @@ namespace RhinoBridge.DataAccess
 
         }
 
+        /// <summary>
+        /// Build the import script to be run by the rhino application
+        /// </summary>
+        /// <param name="information"></param>
+        /// <returns></returns>
         private string BuildScript(GeometryInformation information)
         {
             return $"{COMMAND} \"{information.FilePath}\" {OPTIONS} _Enter";
         }
 
-        private static void DeselectAllObjects()
+        /// <summary>
+        /// Deselect all objects in the rhino document
+        /// </summary>
+        private void DeselectAllObjects()
         {
-            RhinoApp.RunScript($"_Escape", false);
+            _doc.Objects.UnselectAll();
+        }
+
+        /// <summary>
+        /// Remap the Z Axis of a prop from Rhino Y to Rhino Z
+        /// </summary>
+        /// <param name="obj"></param>
+        private void RemapPropAxis(RhinoObject obj)
+        {
+            // Rotate geometry around x axis
+            obj.Geometry.Transform(Transform.Rotation(Math.PI / 2.0, Vector3d.XAxis, Point3d.Origin));
+
+            // commit changes
+            obj.CommitChanges();
         }
     }
 }

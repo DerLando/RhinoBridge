@@ -1,4 +1,6 @@
-﻿using Rhino;
+﻿using System;
+using Rhino;
+using Rhino.DocObjects;
 
 namespace RhinoBridge.DataAccess
 {
@@ -21,6 +23,16 @@ namespace RhinoBridge.DataAccess
         protected DataAccessBase(RhinoDoc doc)
         {
             _doc = doc;
+        }
+
+        /// <summary>
+        /// Gets the underlying <see cref="RhinoObject"/> instance for a given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal RhinoObject GetObjectFromId(Guid id)
+        {
+            return new ObjRef(id).Object();
         }
     }
 }

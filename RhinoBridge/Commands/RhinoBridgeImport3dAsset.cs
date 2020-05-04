@@ -52,6 +52,8 @@ namespace RhinoBridge.Commands
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
+            doc.Views.RedrawEnabled = false;
+
             var propAccess = new PropData(doc);
             var matAccess = new MaterialData(doc);
 
@@ -63,7 +65,10 @@ namespace RhinoBridge.Commands
                 propAccess.AddTexturedGeometry(geometryInformation, mat);
             }
 
+            doc.Views.RedrawEnabled = true;
+
             doc.Views.Redraw();
+
             return Result.Success;
         }
     }

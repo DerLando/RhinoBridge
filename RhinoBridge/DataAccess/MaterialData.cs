@@ -84,16 +84,6 @@ namespace RhinoBridge.DataAccess
         }
 
         /// <summary>
-        /// Gets the underlying <see cref="RhinoObject"/> instance for a given id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        private RhinoObject GetObjectFromId(Guid id)
-        {
-            return new ObjRef(id).Object();
-        }
-
-        /// <summary>
         /// Assigns a <see cref="RenderMaterial"/> to a <see cref="RhinoObject"/>
         /// </summary>
         /// <param name="material"></param>
