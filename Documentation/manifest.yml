@@ -1,0 +1,10 @@
+name: RhinoBridge
+version: 0.1.0
+authors:
+  - Lando Schumpich
+description: >
+RhinoBridge allows for imports into Rhino from Quixel Bridge, using the 'Custom Socket Export' option.
+It uses the Quixel 'bridge-c-sharp-plugin' hosted at https://github.com/Quixel/Bridge-C-Sharp-Plugin,
+which in itself uses Newtonsoft.Json hosted at https://github.com/JamesNK/Newtonsoft.Json.
+All software used and the plugIn itself is licensed under the MIT License.
+url: "https://github.com/DerLando/RhinoBridge"
