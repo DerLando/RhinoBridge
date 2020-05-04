@@ -36,6 +36,11 @@ namespace RhinoBridge
 
         #region Settings
 
+        /// <summary>
+        /// The unit system used by quixel fbx files
+        /// </summary>
+        public const UnitSystem FBX_UNIT_SYSTEM = UnitSystem.Centimeters;
+
         #region Port
         private const int DEFAULT_PORT = 24981;
         private const string PORT_KEY = "PORT";

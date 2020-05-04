@@ -18,11 +18,6 @@ namespace RhinoBridge.Commands
         private GeometryInformation[] _geometryInfos;
         private Asset _asset;
 
-        /// <summary>
-        /// The unit system used by quixel fbx files
-        /// </summary>
-        private const UnitSystem FBX_UNIT_SYSTEM = UnitSystem.Centimeters;
-
         public void SetInfos(IEnumerable<GeometryInformation> infos)
         {
             _geometryInfos = infos.ToArray();
@@ -57,7 +52,7 @@ namespace RhinoBridge.Commands
             var propAccess = new PropData(doc);
             var matAccess = new MaterialData(doc);
 
-            var mat = RenderContentFactory.CreateMaterial(_asset, doc, FBX_UNIT_SYSTEM);
+            var mat = RenderContentFactory.CreateMaterial(_asset, doc, RhinoBridgePlugIn.FBX_UNIT_SYSTEM);
             matAccess.AddRenderMaterial(mat);
 
             foreach (var geometryInformation in _geometryInfos)
