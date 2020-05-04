@@ -18,17 +18,17 @@ Currently, only Rhino 7 WIP Version 7.0.20119.13305 and Quixel Bridge Version 20
 
 To Import from Quixel Bridge, run the `_RhinoBridgeStartServer` command inside of Rhino. After that the plugIn is listening for all *Custom Socket Export*s from Quixel Bridge.
 
-![Import Material into Rhino](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Rhino_bridge_import.png)
+![Import Material into Rhino](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Images/Rhino_bridge_import.png)
 
-![Export from quixel bridge](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Quixel_socket_export.png)
+![Export from quixel bridge](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Images/Quixel_socket_export.png)
 
 To transfer 3d **Assets**, a back-buffer is loaded and Rhino will inform you to run the `_RhinoBridgeImport3dAsset` command.
 
-![Import 3d asset into Rhino](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Rhino_bridge_import_asset.png)
+![Import 3d asset into Rhino](https://github.com/DerLando/RhinoBridge/blob/master/Documentation/Images/Rhino_bridge_import_asset.png)
 
 ## Installation
 
-You can get the latest version of *RhinoBridge* either via the package manager inside of Rhino, using the `_PackageManager` command, or download the latest installable *.rhp* file from **INSERT LINK HERE**
+You can get the latest version of *RhinoBridge* either via the package manager inside of Rhino, using the `_PackageManager` command, or download the latest installable *.rhp* file from https://github.com/DerLando/RhinoBridge/releases/latest
 
 ## Issues
 
