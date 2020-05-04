@@ -8,6 +8,7 @@ using Rhino;
 using Rhino.UI;
 using RhinoBridge.Converters;
 using RhinoBridge.DataAccess;
+using RhinoBridge.Errors;
 using RhinoBridge.Settings;
 using RhinoBridge.UI.Views;
 
@@ -175,7 +176,21 @@ namespace RhinoBridge
         /// <param name="e"></param>
         private void BridgeImporterOnRaiseAssetImport(AssetExportEventArgs e)
         {
-            new ImportEventMachine(e).Execute();
+            try
+            {
+                new ImportEventMachine(e).Execute();
+            }
+            catch (Exception ex)
+            {
+                if (ex is TextureTypeNotImplementedException || ex is AssetTypeNotImplementedException ||
+                    ex is GeometryFormatNotImplementedException)
+                {
+                    RhinoApp.WriteLine(ex.Message);
+                    return;
+                }
+
+                throw;
+            }
         }
 
         /// <summary>

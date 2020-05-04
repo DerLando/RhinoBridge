@@ -1,4 +1,5 @@
 ﻿using bridge_c_sharp_plugin;
+using Rhino;
 using Rhino.DocObjects;
 using Rhino.Render;
 using RhinoBridge.Data;
@@ -24,6 +25,7 @@ namespace RhinoBridge.Converters
             if (texture.type == "bump") return TextureType.Bump;
             if (texture.type == "cavity") return TextureType.PBR_ClearcoatBump;
             if (texture.type == "displacement") return TextureType.PBR_Displacement;
+            if (texture.type == "diffuse") return TextureType.Diffuse;
             if (texture.type == "gloss") return TextureType.PBR_Clearcoat;
             if (texture.type == "normal") return TextureType.Bump;
             if (texture.type == "roughness") return TextureType.PBR_Roughness;
@@ -31,7 +33,8 @@ namespace RhinoBridge.Converters
             if (texture.type == "opacity") return TextureType.Opacity;
             if (texture.type == "translucency") return TextureType.PBR_Sheen;
 
-            throw new TextureTypeNotImplementedException(texture.type);
+            var exception = new TextureTypeNotImplementedException(texture.type);
+            throw exception;
         }
 
         /// <summary>
