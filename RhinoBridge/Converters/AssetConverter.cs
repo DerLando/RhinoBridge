@@ -21,12 +21,15 @@ namespace RhinoBridge.Converters
         {
             if (texture.type == "albedo") return TextureType.PBR_BaseColor;
             if (texture.type == "ao") return TextureType.PBR_AmbientOcclusion;
+            if (texture.type == "bump") return TextureType.Bump;
             if (texture.type == "cavity") return TextureType.PBR_ClearcoatBump;
             if (texture.type == "displacement") return TextureType.PBR_Displacement;
             if (texture.type == "gloss") return TextureType.PBR_Clearcoat;
             if (texture.type == "normal") return TextureType.Bump;
             if (texture.type == "roughness") return TextureType.PBR_Roughness;
             if (texture.type == "specular") return TextureType.PBR_Specular;
+            if (texture.type == "opacity") return TextureType.Opacity;
+            if (texture.type == "translucency") return TextureType.PBR_Sheen;
 
             throw new TextureTypeNotImplementedException(texture.type);
         }
@@ -40,6 +43,7 @@ namespace RhinoBridge.Converters
         {
             if (asset.type == "surface") return AssetType.Surface;
             if (asset.type == "3d") return AssetType.Prop;
+            if (asset.type == "3dplant") return AssetType.Plant;
 
             throw new AssetTypeNotImplementedException(asset.type);
         }

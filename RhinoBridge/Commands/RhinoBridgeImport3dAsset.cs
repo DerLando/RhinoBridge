@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using bridge_c_sharp_plugin;
 using Rhino;
@@ -51,12 +52,15 @@ namespace RhinoBridge.Commands
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            var access = new PropData(doc);
+            var propAccess = new PropData(doc);
+            var matAccess = new MaterialData(doc);
+
+            var mat = RenderContentFactory.CreateMaterial(_asset, doc, FBX_UNIT_SYSTEM);
+            matAccess.AddRenderMaterial(mat);
 
             foreach (var geometryInformation in _geometryInfos)
             {
-                var mat = RenderContentFactory.CreateMaterial(_asset, doc, FBX_UNIT_SYSTEM);
-                access.AddTexturedGeometry(geometryInformation, mat);
+                propAccess.AddTexturedGeometry(geometryInformation, mat);
             }
 
             doc.Views.Redraw();

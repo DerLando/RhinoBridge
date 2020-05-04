@@ -21,5 +21,10 @@ namespace RhinoBridge.Data
         /// A 3d asset, with a material assigned
         /// </summary>
         Prop,
+
+        /// <summary>
+        /// A 3d plant asset
+        /// </summary>
+        Plant,
     }
 }

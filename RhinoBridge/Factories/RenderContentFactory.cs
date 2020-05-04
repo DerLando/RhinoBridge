@@ -24,7 +24,7 @@ namespace RhinoBridge.Factories
             var pbr = CreateEmptyMaterial();
 
             // set name
-            pbr.Name = asset.name;
+            pbr.Name = $"{asset.name}-{asset.id}";
 
             // iterate over textures
             foreach (var texture in asset.textures)
@@ -63,7 +63,7 @@ namespace RhinoBridge.Factories
             var pbr = CreateEmptyMaterial();
 
             // set name
-            pbr.Name = asset.name;
+            pbr.Name = $"{asset.name}-{asset.id}";
 
             // iterate over textures
             foreach (var texture in asset.textures)

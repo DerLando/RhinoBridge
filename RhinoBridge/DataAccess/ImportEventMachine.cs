@@ -58,6 +58,9 @@ namespace RhinoBridge.DataAccess
                 case Data.AssetType.Prop:
                     Execute_Prop();
                     break;
+                case Data.AssetType.Plant:
+                    Execute_Prop();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

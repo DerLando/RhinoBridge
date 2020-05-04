@@ -35,7 +35,12 @@ namespace RhinoBridge.DataAccess
         /// <returns></returns>
         public bool AddRenderMaterial(RenderMaterial material)
         {
-            return _doc.RenderMaterials.Add(material);
+            // Test if material is already in table
+            if (_doc.Materials.Find(material.Name, true) != -1)
+                return false;
+            
+            _doc.RenderMaterials.Add(material);
+            return true;
         }
 
         /// <summary>
@@ -115,6 +120,16 @@ namespace RhinoBridge.DataAccess
         }
 
         /// <summary>
+        /// Tries to find a document assigned version of the given render material
+        /// </summary>
+        /// <param name="material"></param>
+        /// <returns></returns>
+        private RenderMaterial TryFindDocumentMaterial(RenderMaterial material)
+        {
+            return _doc.RenderMaterials.First(m => m.Name == material.Name);
+        }
+
+        /// <summary>
         /// Textures a geometry, already existing inside of the rhino document
         /// </summary>
         /// <param name="material"></param>
@@ -122,7 +137,14 @@ namespace RhinoBridge.DataAccess
         public void TextureExistingGeometry(RenderMaterial material, Guid id)
         {
             // Add material to table
-            AddRenderMaterial(material);
+            var isNew = AddRenderMaterial(material);
+
+            // test if material already exists
+            if (!isNew)
+            {
+                var found = TryFindDocumentMaterial(material);
+                material = found;
+            }
 
             // assign material
             AssignMaterialToObject(material, id);
