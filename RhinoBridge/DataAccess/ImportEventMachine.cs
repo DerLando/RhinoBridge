@@ -88,7 +88,7 @@ namespace RhinoBridge.DataAccess
             //}
 
             RhinoApp.WriteLine(
-                $"Dynamic import of 3d assets is not currently supported. Please run the {RhinoBridgeImport3dAsset.Instance.EnglishName} command instead.");
+                $"Dynamic import of 3d assets is not currently supported. Please run the {RhinoBridgeImport3dAsset.Instance.EnglishName} command afterwards");
 
             // set backing fields on command
             RhinoBridgeImport3dAsset.Instance.SetInfos(from geom in _asset.geometry select geom.ToGeometryInformation());

@@ -34,7 +34,7 @@ namespace RhinoBridge.DataAccess
         /// </summary>
         /// <param name="information"></param>
         /// <returns></returns>
-        public Guid AddGeometry(GeometryInformation information)
+        public Guid[] AddGeometry(GeometryInformation information)
         {
             // deselect all objects
             DeselectAllObjects();
@@ -43,16 +43,23 @@ namespace RhinoBridge.DataAccess
             var script = BuildScript(information);
             RhinoApp.RunScript(script, false);
 
-            // get the id
-            var id = _doc.Objects.GetSelectedObjects(false, false).First().Id;
+            // get the ids
+            var ids =
+                (from rhinoObject
+                    in _doc.Objects.GetSelectedObjects(false, false)
+                select rhinoObject.Id)
+                .ToArray();
 
             // props come in mapped with their z axis to the rhino y axis,
             // we need to rotate them around the x axis by pi/2
-            var obj = GetObjectFromId(id);
-            RemapPropAxis(obj);
+            foreach (var guid in ids)
+            {
+                var obj = GetObjectFromId(guid);
+                RemapPropAxis(obj);
+            }
 
             // the imported asset will be selected
-            return id;
+            return ids;
         }
 
         /// <summary>
@@ -62,13 +69,16 @@ namespace RhinoBridge.DataAccess
         public void AddTexturedGeometry(GeometryInformation information, RenderMaterial material)
         {
             // add the geometry
-            var id = AddGeometry(information);
+            var ids = AddGeometry(information);
 
             // create a new instance of material access
             var matAccess = new MaterialData(_doc);
 
             // apply the texture
-            matAccess.TextureExistingGeometry(material, id);
+            foreach (var guid in ids)
+            {
+                matAccess.TextureExistingGeometry(material, guid);
+            }
 
         }
 
