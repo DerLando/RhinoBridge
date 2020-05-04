@@ -8,6 +8,7 @@ using Rhino;
 using Rhino.Render;
 using RhinoBridge.Commands;
 using RhinoBridge.Converters;
+using RhinoBridge.Data;
 using RhinoBridge.Extensions;
 using RhinoBridge.Factories;
 
@@ -70,29 +71,52 @@ namespace RhinoBridge.DataAccess
             //RhinoApp.WriteLine($"Finished importing {_asset.name}");
         }
 
+        /// <summary>
+        /// Delegate to be called inside of rhinos ui thread
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="mat"></param>
+        private delegate void AddGeo(GeometryInformation info, RenderMaterial mat);
+
+        /// <summary>
+        /// Handles <see cref="AddGeo"/> as a wrapper around <seealso cref="PropData.AddTexturedGeometry"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="mat"></param>
+        private void AddGeoHandler(GeometryInformation info, RenderMaterial mat)
+        {
+            new PropData(_doc).AddTexturedGeometry(info, mat);
+        }
+
         private void Execute_Prop()
         {
-            //// get prop data access
-            //var propData = new PropData(_doc);
+            // disable redraw for the time being
+            _doc.Views.RedrawEnabled = false;
 
-            //// iterate over asset geometries
-            //foreach (var geometry in _asset.geometry)
-            //{
-            //    // get asset geometry info
-            //    var info = geometry.ToGeometryInformation();
+            // create data access endpoints
+            var matAccess = new MaterialData(_doc);
 
-            //    // add geometry
-            //    propData.AddTexturedGeometry(info);
+            // create the render material for the asset
+            var mat = RenderContentFactory.CreateMaterial(_asset, _doc, RhinoBridgePlugIn.FBX_UNIT_SYSTEM);
 
-            //    // TODO: Add materials
-            //}
+            // Add it to the document
+            matAccess.AddRenderMaterial(mat);
 
-            RhinoApp.WriteLine(
-                $"Dynamic import of 3d assets is not currently supported. Please run the {RhinoBridgeImport3dAsset.Instance.EnglishName} command afterwards");
+            // get all geometry infos
+            var geoInfos = from geom in _asset.geometry select geom.ToGeometryInformation();
 
-            // set backing fields on command
-            RhinoBridgeImport3dAsset.Instance.SetInfos(from geom in _asset.geometry select geom.ToGeometryInformation());
-            RhinoBridgeImport3dAsset.Instance.SetAsset(_asset);
+            // create delegate handler
+            AddGeo handler = AddGeoHandler;
+
+            // iterate over all geometry informations
+            foreach (var geometryInformation in geoInfos)
+            {
+                // Add them to the document, textured
+                RhinoApp.InvokeOnUiThread(handler, new Object[]{geometryInformation, mat});
+            }
+
+            // re-enable redraw
+            _doc.Views.RedrawEnabled = true;
         }
 
         private void Execute_Surface()
@@ -101,6 +125,9 @@ namespace RhinoBridge.DataAccess
             var mat = RhinoBridgePlugIn.Instance.ShouldScaleMaterials
                 ? RenderContentFactory.CreateMaterial(_asset, _doc, RhinoBridgePlugIn.FBX_UNIT_SYSTEM)
                 : RenderContentFactory.CreateMaterial(_asset, _doc);
+
+            // disable redraw for the time being
+            _doc.Views.RedrawEnabled = false;
 
             // get data access
             var materialData = new MaterialData(_doc);
@@ -124,6 +151,8 @@ namespace RhinoBridge.DataAccess
 
             RhinoApp.WriteLine($"Finished importing {_asset.name}");
 
+            // re-enable redraw
+            _doc.Views.RedrawEnabled = true;
         }
     }
 }

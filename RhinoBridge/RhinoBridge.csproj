@@ -54,7 +54,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\RhinoBridgeImport3dAsset.cs" />
     <Compile Include="Commands\RhinoBridgeStartServer.cs" />
     <Compile Include="Converters\AssetConverter.cs" />
     <Compile Include="DataAccess\GeometryExportEventArgs.cs" />
