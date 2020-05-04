@@ -71,28 +71,8 @@ namespace RhinoBridge.DataAccess
             //RhinoApp.WriteLine($"Finished importing {_asset.name}");
         }
 
-        /// <summary>
-        /// Delegate to be called inside of rhinos ui thread
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="mat"></param>
-        private delegate void AddGeo(GeometryInformation info, RenderMaterial mat);
-
-        /// <summary>
-        /// Handles <see cref="AddGeo"/> as a wrapper around <seealso cref="PropData.AddTexturedGeometry"/>
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="mat"></param>
-        private void AddGeoHandler(GeometryInformation info, RenderMaterial mat)
-        {
-            new PropData(_doc).AddTexturedGeometry(info, mat);
-        }
-
         private void Execute_Prop()
         {
-            // disable redraw for the time being
-            _doc.Views.RedrawEnabled = false;
-
             // create data access endpoints
             var matAccess = new MaterialData(_doc);
 
@@ -105,18 +85,8 @@ namespace RhinoBridge.DataAccess
             // get all geometry infos
             var geoInfos = from geom in _asset.geometry select geom.ToGeometryInformation();
 
-            // create delegate handler
-            AddGeo handler = AddGeoHandler;
-
-            // iterate over all geometry informations
-            foreach (var geometryInformation in geoInfos)
-            {
-                // Add them to the document, textured
-                RhinoApp.InvokeOnUiThread(handler, new Object[]{geometryInformation, mat});
-            }
-
-            // re-enable redraw
-            _doc.Views.RedrawEnabled = true;
+            // Add to the import queue
+            RhinoBridgePlugIn.Instance.ImportQueue.AddPackage(mat, geoInfos);
         }
 
         private void Execute_Surface()

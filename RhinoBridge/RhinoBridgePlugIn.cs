@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using bridge_c_sharp_plugin;
 using Rhino;
 using Rhino.UI;
@@ -142,6 +143,8 @@ namespace RhinoBridge
 
         #endregion
 
+        #region Server
+
         /// <summary>
         /// The <see cref="BridgeServer"/> that listens for export events
         /// of Bridge
@@ -166,9 +169,29 @@ namespace RhinoBridge
             // Starts the server in background.
             Listener.StartServer();
 
+            // Start the import queue
+            ImportQueue = new AssetImportQueue(RhinoDoc.ActiveDoc);
+
             // Subscribe to asset import events
             BridgeImporter.RaiseAssetImport += BridgeImporterOnRaiseAssetImport;
+
+            // Subscribe to idle app events
+            RhinoApp.Idle += RhinoAppOnIdle;
         }
+
+        /// <summary>
+        /// Ends the server
+        /// </summary>
+        public void EndServer()
+        {
+            Listener?.EndServer();
+
+            BridgeImporter.RaiseAssetImport -= BridgeImporterOnRaiseAssetImport;
+        }
+
+        #endregion
+
+        private ImportEventMachine _eventMachine;
 
         /// <summary>
         /// Handle Asset export events coming from quixel bridge
@@ -178,7 +201,11 @@ namespace RhinoBridge
         {
             try
             {
-                new ImportEventMachine(e).Execute();
+                // create a new event machine and assign to backing field
+                _eventMachine = new ImportEventMachine(e);
+
+                // execute the machine
+                _eventMachine.Execute();
             }
             catch (Exception ex)
             {
@@ -191,17 +218,28 @@ namespace RhinoBridge
 
                 throw;
             }
+
+            // set machine back to null, so next thread can start working
+            _eventMachine = null;
         }
 
-        /// <summary>
-        /// Ends the server
-        /// </summary>
-        public void EndServer()
+        public AssetImportQueue ImportQueue;
+
+        private void RhinoAppOnIdle(object sender, EventArgs e)
         {
-            Listener?.EndServer();
+            // nothing to import?
+            if (!ImportQueue.CanImport)
+            {
+                // update the currently active doc
+                ImportQueue.UpdateDocument();
 
-            BridgeImporter.RaiseAssetImport -= BridgeImporterOnRaiseAssetImport;
+                return;
+            }
+
+            // import the next asset in the queue
+            ImportQueue.ImportNext();
         }
+
 
         // You can override methods here to change the plug-in behavior on
         // loading and shut down, add options pages to the Rhino _Option command
