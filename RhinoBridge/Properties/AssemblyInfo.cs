@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Rhino.PlugIns;
@@ -6,13 +7,13 @@ using Rhino.PlugIns;
 // Plug-in Description Attributes - all of these are optional.
 // These will show in Rhino's option dialog, in the tab Plug-ins.
 [assembly: PlugInDescription(DescriptionType.Address, "-")]
-[assembly: PlugInDescription(DescriptionType.Country, "-")]
-[assembly: PlugInDescription(DescriptionType.Email, "-")]
+[assembly: PlugInDescription(DescriptionType.Country, "Germany")]
+[assembly: PlugInDescription(DescriptionType.Email, "lando.schumpich@gmail.com")]
 [assembly: PlugInDescription(DescriptionType.Phone, "-")]
 [assembly: PlugInDescription(DescriptionType.Fax, "-")]
 [assembly: PlugInDescription(DescriptionType.Organization, "-")]
-[assembly: PlugInDescription(DescriptionType.UpdateUrl, "-")]
-[assembly: PlugInDescription(DescriptionType.WebSite, "-")]
+[assembly: PlugInDescription(DescriptionType.UpdateUrl, "https://github.com/DerLando/RhinoBridge")]
+[assembly: PlugInDescription(DescriptionType.WebSite, "http://landoarch.de")]
 
 // Icons should be Windows .ico files and contain 32-bit images in the following sizes: 16, 24, 32, 48, and 256.
 // This is a Rhino 6-only description.
@@ -24,12 +25,12 @@ using Rhino.PlugIns;
 [assembly: AssemblyTitle("RhinoBridge")]
 
 // This will be used also for the plug-in description.
-[assembly: AssemblyDescription("RhinoBridge utility plug-in")]
+[assembly: AssemblyDescription("PlugIn allowing for imports into Rhino from Quixel Bridge, using the 'Custom Socket Export' option. \n Uses the Quixel 'bridge-c-sharp-plugin' hosted at: https://github.com/Quixel/Bridge-C-Sharp-Plugin, which in itself uses Newtonsoft.Json hosted at: https://github.com/JamesNK/Newtonsoft.Json. \n All software used and the plugIn itself is licensed under the MIT License.")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RhinoBridge")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © Lando Schumpich 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
