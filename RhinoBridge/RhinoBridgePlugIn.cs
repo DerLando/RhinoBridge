@@ -39,10 +39,12 @@ namespace RhinoBridge
         public void StartServer()
         {
             // Check if we already have a server running
-            if(Listener == null)
-                Listener = new BridgeServer();
+            if (Listener != null) return;
 
-            //Starts the server in background.
+            // create a new server
+            Listener = new BridgeServer();
+
+            // Starts the server in background.
             Listener.StartServer();
 
             // Subscribe to asset import events
