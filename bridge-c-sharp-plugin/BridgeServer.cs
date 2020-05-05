@@ -56,7 +56,7 @@ namespace bridge_c_sharp_plugin
 
                             if (receivedMessage.Count > 0)
                             {
-                                BridgeImporter.AssetImporter(receivedMessage[0]);
+                                BridgeImporter.Instance.AddAssets(receivedMessage[0]);
                                 receivedMessage.RemoveAt(0);
                             }
                         }

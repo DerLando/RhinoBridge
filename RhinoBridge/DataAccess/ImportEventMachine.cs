@@ -45,10 +45,10 @@ namespace RhinoBridge.DataAccess
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="args"></param>
-        public ImportEventMachine(AssetExportEventArgs args)
+        /// <param name="asset"></param>
+        public ImportEventMachine(Asset asset)
         {
-            _asset = args.Asset;
+            _asset = asset;
         }
 
         /// <summary>

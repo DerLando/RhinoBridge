@@ -191,7 +191,7 @@ namespace RhinoBridge
             Listener.StartServer();
 
             // Subscribe to asset import events
-            BridgeImporter.RaiseAssetImport += BridgeImporterOnRaiseAssetImport;
+            BridgeImporter.Instance.ImportsReceived += BridgeImporterOnRaiseAssetImport;
 
             // Subscribe to idle app events
             RhinoApp.Idle += RhinoAppOnIdle;
@@ -206,7 +206,7 @@ namespace RhinoBridge
             Listener?.EndServer();
 
             // End subscription to asset imports
-            BridgeImporter.RaiseAssetImport -= BridgeImporterOnRaiseAssetImport;
+            BridgeImporter.Instance.ImportsReceived -= BridgeImporterOnRaiseAssetImport;
 
             // End subscription to idle events
             RhinoApp.Idle -= RhinoAppOnIdle;
@@ -219,31 +219,36 @@ namespace RhinoBridge
         /// <summary>
         /// Handle Asset export events coming from quixel bridge
         /// </summary>
+        /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BridgeImporterOnRaiseAssetImport(AssetExportEventArgs e)
+        private void BridgeImporterOnRaiseAssetImport(object sender, EventArgs e)
         {
-            try
+            // empty the whole import queue
+            while (BridgeImporter.Instance.CanExport)
             {
-                // create a new event machine and assign to backing field
-                _eventMachine = new ImportEventMachine(e);
-
-                // execute the machine
-                _eventMachine.Execute();
-            }
-            catch (Exception ex)
-            {
-                if (ex is TextureTypeNotImplementedException || ex is AssetTypeNotImplementedException ||
-                    ex is GeometryFormatNotImplementedException)
+                try
                 {
-                    RhinoApp.WriteLine(ex.Message);
-                    return;
+                    // create a new event machine and assign to backing field
+                    _eventMachine = new ImportEventMachine(BridgeImporter.Instance.GetNextAsset());
+
+                    // execute the machine
+                    _eventMachine.Execute();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is TextureTypeNotImplementedException || ex is AssetTypeNotImplementedException ||
+                        ex is GeometryFormatNotImplementedException)
+                    {
+                        RhinoApp.WriteLine(ex.Message);
+                        return;
+                    }
+
+                    throw;
                 }
 
-                throw;
+                // set machine back to null, so next thread can start working
+                _eventMachine = null;
             }
-
-            // set machine back to null, so next thread can start working
-            _eventMachine = null;
         }
 
         private void RhinoAppOnIdle(object sender, EventArgs e)

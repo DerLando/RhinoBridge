@@ -43,50 +43,112 @@ using System.Collections.Generic;
 
 namespace bridge_c_sharp_plugin
 {
-    public static class BridgeImporter
+    public sealed class BridgeImporter
     {
-        public delegate void AssetImportEventHandler(AssetExportEventArgs e);
+        #region Private fields
+        /// <summary>
+        /// backing assets that can be imported
+        /// </summary>
+        private readonly Queue<Asset> _assets = new Queue<Asset>();
 
-        public static event AssetImportEventHandler RaiseAssetImport;
+        /// <summary>
+        /// lazy backing instance
+        /// </summary>
+        private static readonly Lazy<BridgeImporter>
+            _lazy = new Lazy<BridgeImporter>(() => new BridgeImporter());
 
-        static void OnRaiseAssetImport(AssetExportEventArgs e)
+        #endregion
+
+        #region Public properties
+
+        /// <summary>
+        /// Gives information if we have assets to export
+        /// </summary>
+        public bool CanExport => _assets.Count > 0;
+
+        /// <summary>
+        /// The only instance of the <see cref="BridgeImporter"/>
+        /// </summary>
+        public static BridgeImporter Instance => _lazy.Value;
+
+        #endregion
+
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        private BridgeImporter()
+        {
+
+        }
+
+        #region Public methods
+
+        public void AddAssets(string jsonData)
+        {
+            //Parsing JSON array for multiple assets.
+            var jArray = jsonData;
+            var assetsJsonArray = JArray.Parse(jArray);
+            foreach (var jsonAsset in assetsJsonArray)
+            {
+                //Parsing JSON data.
+                _assets.Enqueue(ImportMegascansAssets(jsonAsset.ToObject<JObject>()));
+            }
+
+            OnImportsReceived(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Gets the next asset to import.
+        /// Check <seealso cref="BridgeImporter.CanExport"/> first!
+        /// </summary>
+        /// <returns></returns>
+        public Asset GetNextAsset()
+        {
+            return _assets.Dequeue();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Raised when the importer receives new assets to import
+        /// from the <see cref="BridgeServer"/>
+        /// </summary>
+        public event EventHandler ImportsReceived;
+
+        void OnImportsReceived(EventArgs e)
         {
             // Make a temporary copy of the event to avoid possibility of
             // a race condition if the last subscriber unsubscribes
             // immediately after the null check and before the event is raised.
-            var handler = RaiseAssetImport;
+            var handler = ImportsReceived;
 
-            // Event will be null if there are no subscribers
-            // TODO: we can still get a race condition here
-            if (handler != null)
-            {
-                handler.Invoke(e);
-            }
+            handler?.Invoke(this, e);
         }
+
+        //public delegate void AssetImportEventHandler(AssetExportEventArgs e);
+
+        //public static event AssetImportEventHandler RaiseAssetImport;
+
+        //static void OnRaiseAssetImport(AssetExportEventArgs e)
+        //{
+        //    // Make a temporary copy of the event to avoid possibility of
+        //    // a race condition if the last subscriber unsubscribes
+        //    // immediately after the null check and before the event is raised.
+        //    var handler = RaiseAssetImport;
+
+        //    // Event will be null if there are no subscribers
+        //    // TODO: we can still get a race condition here
+        //    if (handler != null)
+        //    {
+        //        handler.GetInvocationList().
+        //    }
+        //}
 
         /// <summary>
-        /// The server calls this!
+        /// Imports a Megascans Asset from a <see cref="JObject"/>
         /// </summary>
-        /// <param name="jsonData"></param>
-        public static void AssetImporter (string jsonData)
-        {
-            List<Asset> assets = new List<Asset>();
-            //Parsing JSON array for multiple assets.
-            string jArray = jsonData;
-            JArray assetsJsonArray = JArray.Parse(jArray);
-            for (int i = 0; i < assetsJsonArray.Count; ++i)
-            {
-                //Parsing JSON data.
-                assets.Add(ImportMegascansAssets(assetsJsonArray[i].ToObject<JObject>()));
-            }
-
-            foreach (Asset asset in assets)
-            {
-                // Raise the asset imported event
-                OnRaiseAssetImport(new AssetExportEventArgs(asset));
-            }
-        }
-
+        /// <param name="objectList"></param>
+        /// <returns></returns>
         static Asset ImportMegascansAssets (JObject objectList)
         {
             Asset asset = new Asset();
@@ -203,32 +265,6 @@ namespace bridge_c_sharp_plugin
             }
 
             return asset;
-        }
-
-        static void PrintProperties(Asset asset)
-        {
-            foreach (var prop in asset.GetType().GetProperties())
-            {
-                Console.WriteLine(prop.Name + ": " + prop.GetValue(asset, null));
-            }
-
-            foreach (var field in asset.GetType().GetFields())
-            {
-                Console.WriteLine(field.Name + ": " + field.GetValue(asset));
-            }
-
-            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            //You can access the fields like this. More information on fields can be found in Asset.cs script.
-            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            //Console.WriteLine(asset.packedTextures[0].name);
-            //Console.WriteLine(asset.packedTextures[0].path);
-            //Console.WriteLine(asset.packedTextures[0].format);
-            //Console.WriteLine(asset.packedTextures[0].channelsData.Red.type);
-            //Console.WriteLine(asset.packedTextures[0].channelsData.Red.channel);
-
-
         }
     }
 }
