@@ -29,6 +29,7 @@ namespace RhinoBridge.UI.Views
             RhinoBridgePlugIn.Instance.SetPort(_control.Model.Port);
             RhinoBridgePlugIn.Instance.SetPreviewType(_control.Model.PreviewType);
             RhinoBridgePlugIn.Instance.SetShouldScale(_control.Model.ShouldScale);
+            RhinoBridgePlugIn.Instance.SetAssetGeometryType(_control.Model.GeometryFlavor);
             return true;
         }
 
@@ -51,7 +52,7 @@ namespace RhinoBridge.UI.Views
         public override void OnDefaults()
         {
             RhinoBridgePlugIn.Instance.RestoreDefaultSettings();
-            _control = new PluginSettingsPageControl();
+            _control.Model.LoadSettings();
 
             // TODO: instead of newing up, reset the model properties so we hit PropertyChanged Events
 

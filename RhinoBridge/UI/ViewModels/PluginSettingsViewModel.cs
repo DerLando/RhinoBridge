@@ -18,6 +18,7 @@ namespace RhinoBridge.UI.ViewModels
         private int _port;
         private TexturePreviewGeometryType _previewType;
         private bool _shouldScale;
+        private AssetImportGeometryFlavor _geometryFlavor;
 
         #endregion
 
@@ -61,15 +62,34 @@ namespace RhinoBridge.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// The type of geometry an asset should be imported as
+        /// </summary>
+        public AssetImportGeometryFlavor GeometryFlavor
+        {
+            get => _geometryFlavor;
+            set
+            {
+                _geometryFlavor = value;
+                RaisePropertyChanged(nameof(GeometryFlavor));
+            }
+        }
+
         #endregion
 
         #region Constructor
 
         public PluginSettingsViewModel()
         {
+            LoadSettings();
+        }
+
+        public void LoadSettings()
+        {
             Port = RhinoBridgePlugIn.Instance.Port;
             PreviewType = RhinoBridgePlugIn.Instance.PreviewType;
             ShouldScale = RhinoBridgePlugIn.Instance.ShouldScaleMaterials;
+            GeometryFlavor = RhinoBridgePlugIn.Instance.AssetGeometryType;
         }
 
         #endregion

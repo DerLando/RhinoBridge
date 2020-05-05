@@ -27,7 +27,7 @@ namespace RhinoBridge.UI.Views
 
         // import settings
         private Label lbl_PreviewType = new Label
-            {Text = "Preview geometry flavor", VerticalAlignment = VerticalAlignment.Center};
+            {Text = "Material geometry", VerticalAlignment = VerticalAlignment.Center};
         private EnumDropDown<TexturePreviewGeometryType> eDD_PreviewType = new EnumDropDown<TexturePreviewGeometryType>();
 
         private Label lbl_ShouldScale = new Label
@@ -38,6 +38,10 @@ namespace RhinoBridge.UI.Views
             VerticalAlignment = VerticalAlignment.Center
         };
         private CheckBox cB_ShouldScale = new CheckBox();
+
+        private Label lbl_AssetGeometryType = new Label
+            {Text = "Asset geometry", VerticalAlignment = VerticalAlignment.Center};
+        private EnumDropDown<AssetImportGeometryFlavor> eDD_AssetGeometryType = new EnumDropDown<AssetImportGeometryFlavor>();
 
         #endregion
 
@@ -60,6 +64,8 @@ namespace RhinoBridge.UI.Views
 
             cB_ShouldScale.CheckedBinding.Bind(Model, m => m.ShouldScale);
 
+            eDD_AssetGeometryType.SelectedValueBinding.Bind(Model, m => m.GeometryFlavor);
+
             // create the layout
             var layout = new DynamicLayout
             {
@@ -78,6 +84,7 @@ namespace RhinoBridge.UI.Views
             group.Title = "Import settings";
             group.AddRow(new DynamicRow(new Control[]{lbl_PreviewType, eDD_PreviewType}));
             group.AddRow(new DynamicRow(new Control[]{lbl_ShouldScale, cB_ShouldScale}));
+            group.AddRow(new DynamicRow(new Control[]{lbl_AssetGeometryType, eDD_AssetGeometryType}));
             layout.Add(group.Create(layout));
 
             // Add null and set content

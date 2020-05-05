@@ -131,6 +131,26 @@ namespace RhinoBridge
 
         #endregion
 
+        #region Import geometry flavor
+
+        private const AssetImportGeometryFlavor DEFAULT_ASSET_GEOMETRY_TYPE = AssetImportGeometryFlavor.Block;
+        private const string DEFAULT_ASSET_GEOMETRY_TYPE_KEY = "ASSETGEOMETRYTYPE";
+        public AssetImportGeometryFlavor AssetGeometryType => GetAssetGeometryType();
+
+        private AssetImportGeometryFlavor GetAssetGeometryType()
+        {
+            return Settings.TryGetEnumValue<AssetImportGeometryFlavor>(DEFAULT_ASSET_GEOMETRY_TYPE_KEY, out var flavor)
+                ? flavor
+                : DEFAULT_ASSET_GEOMETRY_TYPE;
+        }
+
+        public void SetAssetGeometryType(AssetImportGeometryFlavor type)
+        {
+            Settings.SetEnumValue(DEFAULT_ASSET_GEOMETRY_TYPE_KEY, type);
+        }
+
+        #endregion
+
         /// <summary>
         /// Restores all settings to their default values
         /// </summary>
@@ -139,6 +159,7 @@ namespace RhinoBridge
             SetPort(DEFAULT_PORT);
             SetPreviewType(DEFAULT_PREVIEW_TYPE);
             SetShouldScale(DEFAULT_SCALE_BOOL);
+            SetAssetGeometryType(DEFAULT_ASSET_GEOMETRY_TYPE);
         }
 
         #endregion
