@@ -37,21 +37,29 @@ namespace RhinoBridge.DataAccess
             }
         }
 
+        /// <summary>
+        /// The Asset this machine is currently processing
+        /// </summary>
         private readonly Asset _asset;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="args"></param>
         public ImportEventMachine(AssetExportEventArgs args)
         {
             _asset = args.Asset;
         }
 
+        /// <summary>
+        /// Execute the machine to process its contents
+        /// </summary>
         public void Execute()
         {
-            // Give some feedback
-            RhinoApp.WriteLine($"Importing asset {_asset.name}");
-
             // get the asset type
             var type = AssetConverter.ExtractType(_asset);
 
+            // switch execution based on the asset type
             switch (type)
             {
                 case Data.AssetType.Surface:
@@ -66,11 +74,11 @@ namespace RhinoBridge.DataAccess
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            //// Redraw scene and give feedback
-            //RhinoApp.WriteLine($"Finished importing {_asset.name}");
         }
 
+        /// <summary>
+        /// Handles processing of 3d assets
+        /// </summary>
         private void Execute_Prop()
         {
             // create data access endpoints
@@ -80,15 +88,19 @@ namespace RhinoBridge.DataAccess
             var mat = RenderContentFactory.CreateMaterial(_asset, _doc, RhinoBridgePlugIn.FBX_UNIT_SYSTEM);
 
             // Add it to the document
+            // TODO: This might also not be thread safe, although i never saw it crash
             matAccess.AddRenderMaterial(mat);
 
             // get all geometry infos
             var geoInfos = from geom in _asset.geometry select geom.ToGeometryInformation();
 
             // Add to the import queue
-            AssetImportQueue.Instance.AddPackage(mat, geoInfos);
+            AssetImportQueue.Instance.AddPackage(new AssetImportPackage(mat, geoInfos, _doc));
         }
 
+        /// <summary>
+        /// Handles processing of 'raw' materials with no geometry attached
+        /// </summary>
         private void Execute_Surface()
         {
             // create the render material from the asset
@@ -96,33 +108,8 @@ namespace RhinoBridge.DataAccess
                 ? RenderContentFactory.CreateMaterial(_asset, _doc, RhinoBridgePlugIn.FBX_UNIT_SYSTEM)
                 : RenderContentFactory.CreateMaterial(_asset, _doc);
 
-            // disable redraw for the time being
-            _doc.Views.RedrawEnabled = false;
-
-            // get data access
-            var materialData = new MaterialData(_doc);
-
-            // add a different type of preview geometry, depending on the settings
-            switch (RhinoBridgePlugIn.Instance.PreviewType)
-            {
-                case Settings.TexturePreviewGeometryType.Sphere:
-                    materialData.AddTexturedSphere(mat);
-                    break;
-                case Settings.TexturePreviewGeometryType.Plane:
-                    materialData.AddTexturedPlane(mat);
-                    break;
-                case Settings.TexturePreviewGeometryType.Cube:
-                    materialData.AddTexturedCube(mat);
-                    break;
-                case Settings.TexturePreviewGeometryType.None:
-                    materialData.AddRenderMaterial(mat);
-                    break;
-            }
-
-            RhinoApp.WriteLine($"Finished importing {_asset.name}");
-
-            // re-enable redraw
-            _doc.Views.RedrawEnabled = true;
+            // Add to the import queue
+            AssetImportQueue.Instance.AddPackage(new MaterialImportPackage(mat, _doc));
         }
     }
 }

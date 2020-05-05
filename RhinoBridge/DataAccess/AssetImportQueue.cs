@@ -22,7 +22,7 @@ namespace RhinoBridge.DataAccess
         /// <summary>
         /// backing packages that still wait to be imported
         /// </summary>
-        private Queue<AssetPackage> _packages = new Queue<AssetPackage>();
+        private readonly Queue<IImportablePackage> _packages = new Queue<IImportablePackage>();
 
         /// <summary>
         /// the document to import the packages to
@@ -67,13 +67,12 @@ namespace RhinoBridge.DataAccess
         /// <summary>
         /// Add another import package to the queue
         /// </summary>
-        /// <param name="material"></param>
-        /// <param name="infos"></param>
-        public void AddPackage(RenderMaterial material, IEnumerable<GeometryInformation> infos)
+        /// <param name="package">To package to add</param>
+        public void AddPackage(IImportablePackage package)
         {
-            _packages.Enqueue(new AssetPackage(material, infos));
+            _packages.Enqueue(package);
 
-            RhinoApp.WriteLine($"Added package '{material.Name}' to the queue.");
+            RhinoApp.WriteLine($"Added package '{package}' to the queue.");
         }
 
         /// <summary>
@@ -94,23 +93,6 @@ namespace RhinoBridge.DataAccess
         #region Importing
 
         /// <summary>
-        /// Delegate to be called inside of rhinos ui thread
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="mat"></param>
-        private delegate void AddGeo(GeometryInformation info, RenderMaterial mat);
-
-        /// <summary>
-        /// Handles <see cref="AddGeo"/> as a wrapper around <seealso cref="PropData.AddTexturedGeometry"/>
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="mat"></param>
-        private void AddGeoHandler(GeometryInformation info, RenderMaterial mat)
-        {
-            new PropData(_doc).AddTexturedGeometry(info, mat);
-        }
-
-        /// <summary>
         /// Imports the next asset in the queue
         /// </summary>
         public void ImportNext()
@@ -124,17 +106,11 @@ namespace RhinoBridge.DataAccess
             // pop one package of
             var package = _packages.Dequeue();
 
-            // create delegate handler
-            AddGeo handler = AddGeoHandler;
+            // import the package
+            package.WriteToDocument();
 
-            // iterate over all geometry informations
-            foreach (var geometryInformation in package.Infos)
-            {
-                // Add them to the document, textured
-                RhinoApp.InvokeOnUiThread(handler, new Object[] { geometryInformation, package.Material });
-            }
-
-            RhinoApp.WriteLine($"Imported package '{package.Material.Name}'.");
+            // give feedback
+            RhinoApp.WriteLine($"Imported package '{package}'.");
 
             _doc.Views.RedrawEnabled = true;
 

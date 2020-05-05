@@ -59,8 +59,11 @@
     <Compile Include="DataAccess\AssetImportQueue.cs" />
     <Compile Include="DataAccess\GeometryExportEventArgs.cs" />
     <Compile Include="DataAccess\PropData.cs" />
+    <Compile Include="Data\AssetImportPackage.cs" />
     <Compile Include="Data\GeometryFormat.cs" />
     <Compile Include="Data\GeometryInformation.cs" />
+    <Compile Include="Data\IImportablePackage.cs" />
+    <Compile Include="Data\MaterialImportPackage.cs" />
     <Compile Include="Errors\AssetTypeNotImplementedException.cs" />
     <Compile Include="Errors\GeometryFormatNotImplementedException.cs" />
     <Compile Include="Factories\RenderContentFactory.cs" />
