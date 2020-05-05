@@ -27,7 +27,10 @@ namespace RhinoBridge.UI.Views
 
         // import settings
         private Label lbl_PreviewType = new Label
-            {Text = "Material geometry", VerticalAlignment = VerticalAlignment.Center};
+        {
+            Text = "Material geometry", ToolTip = "The type of geometry to create and apply a material to on import",
+            VerticalAlignment = VerticalAlignment.Center
+        };
         private EnumDropDown<TexturePreviewGeometryType> eDD_PreviewType = new EnumDropDown<TexturePreviewGeometryType>();
 
         private Label lbl_ShouldScale = new Label
@@ -40,7 +43,10 @@ namespace RhinoBridge.UI.Views
         private CheckBox cB_ShouldScale = new CheckBox();
 
         private Label lbl_AssetGeometryType = new Label
-            {Text = "Asset geometry", VerticalAlignment = VerticalAlignment.Center};
+        {
+            Text = "Asset geometry", ToolTip = "The type of geometry an asset will be imported as",
+            VerticalAlignment = VerticalAlignment.Center
+        };
         private EnumDropDown<AssetImportGeometryFlavor> eDD_AssetGeometryType = new EnumDropDown<AssetImportGeometryFlavor>();
 
         #endregion
@@ -75,12 +81,14 @@ namespace RhinoBridge.UI.Views
 
             // Add server settings group
             var group = new DynamicGroup();
+            group.Spacing = new Size(5, 5);
             group.Title = "Server settings";
             group.AddRow(new DynamicRow(new Control[]{lbl_Port, tB_Port}));
             layout.Add(group.Create(layout));
 
             // Add import settings group
             group = new DynamicGroup();
+            group.Spacing = new Size(5, 5);
             group.Title = "Import settings";
             group.AddRow(new DynamicRow(new Control[]{lbl_PreviewType, eDD_PreviewType}));
             group.AddRow(new DynamicRow(new Control[]{lbl_ShouldScale, cB_ShouldScale}));

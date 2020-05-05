@@ -26,7 +26,7 @@ using Rhino.PlugIns;
 
 // This will be used also for the plug-in description.
 [assembly: AssemblyDescription(@"RhinoBridge allows for imports into Rhino from Quixel Bridge, using the 'Custom Socket Export' option.
-It uses the Quixel 'bridge-c-sharp-plugin' hosted at https://github.com/Quixel/Bridge-C-Sharp-Plugin,
+It uses a modified version of the Quixel 'bridge-c-sharp-plugin' hosted at https://github.com/Quixel/Bridge-C-Sharp-Plugin,
 which in itself uses Newtonsoft.Json hosted at https://github.com/JamesNK/Newtonsoft.Json.
 All software used and the plugIn itself is licensed under the MIT License.
 url: https://github.com/DerLando/RhinoBridge")]
@@ -57,8 +57,8 @@ url: https://github.com/DerLando/RhinoBridge")]
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("0.1.1")]
+[assembly: AssemblyVersion("0.2.0")]
 [assembly: AssemblyFileVersion("1.0.0")]
 
 // Make compatible with Rhino Installer Engine
-[assembly: AssemblyInformationalVersion("0.1.1")]
+[assembly: AssemblyInformationalVersion("0.2.0")]
