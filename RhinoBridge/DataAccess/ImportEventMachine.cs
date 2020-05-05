@@ -86,7 +86,7 @@ namespace RhinoBridge.DataAccess
             var geoInfos = from geom in _asset.geometry select geom.ToGeometryInformation();
 
             // Add to the import queue
-            RhinoBridgePlugIn.Instance.ImportQueue.AddPackage(mat, geoInfos);
+            AssetImportQueue.Instance.AddPackage(mat, geoInfos);
         }
 
         private void Execute_Surface()

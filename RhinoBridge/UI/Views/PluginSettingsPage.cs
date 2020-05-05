@@ -53,6 +53,8 @@ namespace RhinoBridge.UI.Views
             RhinoBridgePlugIn.Instance.RestoreDefaultSettings();
             _control = new PluginSettingsPageControl();
 
+            // TODO: instead of newing up, reset the model properties so we hit PropertyChanged Events
+
             this.Modified = true;
         }
     }

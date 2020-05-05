@@ -11,9 +11,14 @@ namespace RhinoBridge.DataAccess
 {
     /// <summary>
     /// Import queue for assets that handles thread-safe importing of larger number of assets
+    /// This is implemented as a non-thread-safe singleton, you get access via <seealso cref="AssetImportQueue.Instance"/>
+    /// Since the import queue is only ever called from <see cref="RhinoApp.Idle"/> and Rhino being single-threaded
+    /// we can have the queue single-threaded also
     /// </summary>
-    public class AssetImportQueue
+    public sealed class AssetImportQueue
     {
+        #region Private fields
+
         /// <summary>
         /// backing packages that still wait to be imported
         /// </summary>
@@ -25,18 +30,39 @@ namespace RhinoBridge.DataAccess
         private RhinoDoc _doc;
 
         /// <summary>
+        /// Lazy backing instance
+        /// This gets evaluated on the first reference to the instance
+        /// which is nice because we can guarantee Rhino is loaded and
+        /// has an active document before that call is made
+        /// </summary>
+        private static readonly Lazy<AssetImportQueue> 
+            _lazy = new Lazy<AssetImportQueue>(() => new AssetImportQueue());
+
+        #endregion
+
+        #region Public properties
+
+        /// <summary>
         /// This gives information if the queue can currently import something
         /// </summary>
         public bool CanImport => _packages.Count > 0;
 
         /// <summary>
+        /// The only instance of the <see cref="AssetImportQueue"/>
+        /// </summary>
+        public static AssetImportQueue Instance => _lazy.Value;
+
+        #endregion
+
+        /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="doc"></param>
-        public AssetImportQueue(RhinoDoc doc)
+        private AssetImportQueue()
         {
-            _doc = doc;
+            _doc = RhinoDoc.ActiveDoc;
         }
+
+        #region Public methods
 
         /// <summary>
         /// Add another import package to the queue
@@ -61,6 +87,9 @@ namespace RhinoBridge.DataAccess
 
             _doc = RhinoDoc.ActiveDoc;
         }
+
+        #endregion
+
 
         #region Importing
 

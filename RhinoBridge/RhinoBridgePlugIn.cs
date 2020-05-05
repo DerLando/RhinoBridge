@@ -169,9 +169,6 @@ namespace RhinoBridge
             // Starts the server in background.
             Listener.StartServer();
 
-            // Start the import queue
-            ImportQueue = new AssetImportQueue(RhinoDoc.ActiveDoc);
-
             // Subscribe to asset import events
             BridgeImporter.RaiseAssetImport += BridgeImporterOnRaiseAssetImport;
 
@@ -184,9 +181,14 @@ namespace RhinoBridge
         /// </summary>
         public void EndServer()
         {
+            // End the server
             Listener?.EndServer();
 
+            // End subscription to asset imports
             BridgeImporter.RaiseAssetImport -= BridgeImporterOnRaiseAssetImport;
+
+            // End subscription to idle events
+            RhinoApp.Idle -= RhinoAppOnIdle;
         }
 
         #endregion
@@ -223,21 +225,19 @@ namespace RhinoBridge
             _eventMachine = null;
         }
 
-        public AssetImportQueue ImportQueue;
-
         private void RhinoAppOnIdle(object sender, EventArgs e)
         {
             // nothing to import?
-            if (!ImportQueue.CanImport)
+            if (!AssetImportQueue.Instance.CanImport)
             {
                 // update the currently active doc
-                ImportQueue.UpdateDocument();
+                AssetImportQueue.Instance.UpdateDocument();
 
                 return;
             }
 
             // import the next asset in the queue
-            ImportQueue.ImportNext();
+            AssetImportQueue.Instance.ImportNext();
         }
 
 
