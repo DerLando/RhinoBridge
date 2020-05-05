@@ -57,6 +57,7 @@ namespace bridge_c_sharp_plugin
             var handler = RaiseAssetImport;
 
             // Event will be null if there are no subscribers
+            // TODO: we can still get a race condition here
             if (handler != null)
             {
                 handler.Invoke(e);

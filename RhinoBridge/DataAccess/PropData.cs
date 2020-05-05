@@ -9,6 +9,7 @@ using Rhino.DocObjects;
 using Rhino.Geometry;
 using Rhino.Render;
 using RhinoBridge.Data;
+using RhinoBridge.Settings;
 
 namespace RhinoBridge.DataAccess
 {
@@ -66,6 +67,7 @@ namespace RhinoBridge.DataAccess
         /// Adds the 3d prop with the correct textures applied
         /// </summary>
         /// <param name="information"></param>
+        /// <param name="material"></param>
         public void AddTexturedGeometry(GeometryInformation information, RenderMaterial material)
         {
             // add the geometry
@@ -78,6 +80,16 @@ namespace RhinoBridge.DataAccess
             foreach (var guid in ids)
             {
                 matAccess.TextureExistingGeometry(material, guid);
+
+                // check what type of geometry should exist in the document
+                if(RhinoBridgePlugIn.Instance.AssetGeometryType != AssetImportGeometryFlavor.Block)
+                    continue;
+
+                // get object
+                var obj = GetObjectFromId(guid);
+
+                // convert to block
+                ConvertObjectToBlock(obj, information.ToString());
             }
 
         }
@@ -111,6 +123,35 @@ namespace RhinoBridge.DataAccess
 
             // commit changes
             obj.CommitChanges();
+        }
+
+        /// <summary>
+        /// Converts the given RhinoObject to an instance
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private Guid ConvertObjectToBlock(RhinoObject obj, string name)
+        {
+            // check name
+            var tableName = name;
+            int count = 1;
+            while (_doc.InstanceDefinitions.Find(tableName) != null)
+            {
+                // we just add a suffix of count for now
+                tableName = $"{name} {count}";
+
+                count += 1;
+            }
+
+            // add instance definition
+            var index = _doc.InstanceDefinitions.Add(tableName, "", Point3d.Origin, obj.Geometry, obj.Attributes);
+
+            // remove object
+            _doc.Objects.Delete(obj);
+
+            // insert the instance
+            return _doc.Objects.AddInstanceObject(index, Transform.Identity);
         }
     }
 }
