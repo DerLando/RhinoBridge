@@ -2,6 +2,7 @@
 using Rhino;
 using Rhino.DocObjects;
 using Rhino.Render;
+using Rhino.Render.ChildSlotNames;
 using RhinoBridge.Data;
 using RhinoBridge.Errors;
 using Texture = bridge_c_sharp_plugin.Texture;
@@ -62,7 +63,7 @@ namespace RhinoBridge.Converters
             var type = ExtractType(texture);
 
             // convert type to slotName
-            var slotName = RenderMaterial.PhysicallyBased.ChildSlotNames.FromTextureType(type);
+            var slotName = PhysicallyBased.FromTextureType(type);
 
             return new TextureInformation(texture.path, type, slotName);
         }
