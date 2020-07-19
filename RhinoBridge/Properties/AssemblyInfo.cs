@@ -57,8 +57,8 @@ url: https://github.com/DerLando/RhinoBridge")]
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("0.2.0")]
+[assembly: AssemblyVersion("0.2.1")]
 [assembly: AssemblyFileVersion("1.0.0")]
 
 // Make compatible with Rhino Installer Engine
-[assembly: AssemblyInformationalVersion("0.2.0")]
+[assembly: AssemblyInformationalVersion("0.2.1")]

@@ -33,4 +33,3 @@ D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plug
 D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csproj.CopyComplete
 D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.dll
 D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.pdb
-D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csprojAssemblyReference.cache

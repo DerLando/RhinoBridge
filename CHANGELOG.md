@@ -24,3 +24,13 @@ Initial MVP
 ## UI
 
  - Fix options page not refreshing when `OnDefaults` is called
+
+ # 0.2.1
+
+ ## Crashes
+
+  - Updated Asset conversion to new Rhino WIP API
+
+ ## Importing
+
+  - Updated displacement values to new Rhino WIP API
