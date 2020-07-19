@@ -116,13 +116,13 @@ namespace RhinoBridge.DataAccess
         /// Remap the Z Axis of a prop from Rhino Y to Rhino Z
         /// </summary>
         /// <param name="obj"></param>
-        private void RemapPropAxis(RhinoObject obj)
+        private static bool RemapPropAxis(RhinoObject obj)
         {
             // Rotate geometry around x axis
             obj.Geometry.Transform(Transform.Rotation(Math.PI / 2.0, Vector3d.XAxis, Point3d.Origin));
 
             // commit changes
-            obj.CommitChanges();
+            return obj.CommitChanges();
         }
 
         /// <summary>

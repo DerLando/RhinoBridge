@@ -57,7 +57,8 @@ namespace RhinoBridge.Factories
         public static RenderMaterial CreateMaterial(Asset asset, RhinoDoc doc, UnitSystem unitSystem)
         {
             // calculate displacement amount
-            var displacementAmount = RhinoMath.UnitScale(unitSystem, doc.ModelUnitSystem) * 100.0;
+            //var displacementAmount = RhinoMath.UnitScale(unitSystem, doc.ModelUnitSystem);
+            var displacementAmount = 1.0;
 
             // create empty material, to fill with asset textures
             var pbr = CreateEmptyMaterial();
@@ -79,9 +80,18 @@ namespace RhinoBridge.Factories
                 // add render texture as a child
                 pbr.SetChild(renderTexture, information.ChildSlotName);
                 pbr.SetChildSlotOn(information.ChildSlotName, true, RenderContent.ChangeContexts.Ignore);
-                if (information.Type == TextureType.Bump | information.Type == TextureType.PBR_Displacement)
+
+                // add bump / displacement
+                switch (information.Type)
                 {
-                    pbr.SetChildSlotAmount(information.ChildSlotName, displacementAmount, RenderContent.ChangeContexts.Ignore);
+                    case TextureType.Bump:
+                        pbr.SetChildSlotAmount(information.ChildSlotName, 100.0, RenderContent.ChangeContexts.Ignore);
+                        break;
+                    case TextureType.PBR_Displacement:
+                        pbr.SetChildSlotAmount(information.ChildSlotName, displacementAmount, RenderContent.ChangeContexts.Ignore);
+                        break;
+                    default:
+                        break;
                 }
             }
 
