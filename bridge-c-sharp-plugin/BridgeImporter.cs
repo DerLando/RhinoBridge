@@ -205,7 +205,7 @@ namespace bridge_c_sharp_plugin
             {
                 MetaElement mElement = new MetaElement();
                 mElement.name = (string)obj["name"];
-                mElement.value = (string)obj["value"];
+                mElement.value = obj.GetValue("value").ToString();
                 mElement.key = (string)obj["key"];
 
                 asset.meta.Add(mElement);

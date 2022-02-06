@@ -243,7 +243,14 @@ namespace RhinoBridge
                         return;
                     }
 
-                    throw;
+                    else
+                    {
+                        RhinoApp.WriteLine($"An unexpected error occured while trying to import latest asset!");
+                        RhinoApp.WriteLine(ex.Message);
+                    }
+
+                    // TODO: Disabled for now, so application should never crash on the user
+                    //throw;
                 }
 
                 // set machine back to null, so next thread can start working

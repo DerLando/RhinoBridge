@@ -32,7 +32,7 @@ namespace RhinoBridge.DataAccess
         /// <returns></returns>
         internal RhinoObject GetObjectFromId(Guid id)
         {
-            return new ObjRef(id).Object();
+            return new ObjRef(_doc, id).Object();
         }
     }
 }

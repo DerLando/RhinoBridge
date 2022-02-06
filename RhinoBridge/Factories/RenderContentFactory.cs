@@ -20,30 +20,9 @@ namespace RhinoBridge.Factories
         /// <returns></returns>
         public static RenderMaterial CreateMaterial(Asset asset, RhinoDoc doc)
         {
-            // create empty material, to fill with asset textures
-            var pbr = CreateEmptyMaterial();
-
-            // set name
-            pbr.Name = $"{asset.name}-{asset.id}";
-
-            // iterate over textures
-            foreach (var texture in asset.textures)
-            {
-                // get texture information
-                var information = texture.ToTextureInformation();
-
-                // create render texture from it
-                var renderTexture = information
-                    .ToSimulatedTexture()
-                    .ToRenderTexture(doc);
-
-                // add render texture as a child
-                pbr.SetChild(renderTexture, information.ChildSlotName);
-                pbr.SetChildSlotOn(information.ChildSlotName, true, RenderContent.ChangeContexts.Ignore);
-            }
-
-            // return material
-            return pbr;
+            // Call scale constructor with meaningless unitsystem,
+            // this basically generates a material that is unscaled
+            return CreateMaterial(asset, doc, doc.ModelUnitSystem);
         }
 
         /// <summary>
@@ -56,9 +35,14 @@ namespace RhinoBridge.Factories
         /// <returns></returns>
         public static RenderMaterial CreateMaterial(Asset asset, RhinoDoc doc, UnitSystem unitSystem)
         {
+            // TODO: asset has a 'meta' property which contains scan Area in meters and height (displacement) in meters
+            // From that info we should be able to generate nicely scaled assets.
+            // We just have to watch out for 3d assets here, as their material has to be differently scaled.
+            // So maybe there are two constructors?
+
             // calculate displacement amount
-            //var displacementAmount = RhinoMath.UnitScale(unitSystem, doc.ModelUnitSystem);
-            var displacementAmount = 1.0;
+            var displacementAmount = RhinoMath.UnitScale(unitSystem, doc.ModelUnitSystem) * 0.01;
+            //var displacementAmount = 1.0;
 
             // create empty material, to fill with asset textures
             var pbr = CreateEmptyMaterial();
