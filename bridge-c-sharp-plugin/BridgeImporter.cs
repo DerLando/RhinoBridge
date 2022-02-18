@@ -205,7 +205,11 @@ namespace bridge_c_sharp_plugin
             {
                 MetaElement mElement = new MetaElement();
                 mElement.name = (string)obj["name"];
-                mElement.value = (string)obj["value"];
+                if (obj["value"].Type == JTokenType.String) {
+                    mElement.value = (string)obj["value"];
+                } else {
+                    mElement.value = "N/A"; // handling array exception
+                }
                 mElement.key = (string)obj["key"];
 
                 asset.meta.Add(mElement);

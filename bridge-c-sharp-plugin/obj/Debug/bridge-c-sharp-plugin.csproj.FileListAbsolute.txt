@@ -33,3 +33,10 @@ D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plug
 D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csproj.CopyComplete
 D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.dll
 D:\Git\Bridge-C-Sharp-Plugin\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.pdb
+C:\Users\iam\Development\misc\RhinoBridge\bridge-c-sharp-plugin\bin\Debug\bridge-c-sharp-plugin.dll.config
+C:\Users\iam\Development\misc\RhinoBridge\bridge-c-sharp-plugin\bin\Debug\bridge-c-sharp-plugin.dll
+C:\Users\iam\Development\misc\RhinoBridge\bridge-c-sharp-plugin\bin\Debug\bridge-c-sharp-plugin.pdb
+C:\Users\iam\Development\misc\RhinoBridge\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csproj.CoreCompileInputs.cache
+C:\Users\iam\Development\misc\RhinoBridge\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.csproj.CopyComplete
+C:\Users\iam\Development\misc\RhinoBridge\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.dll
+C:\Users\iam\Development\misc\RhinoBridge\bridge-c-sharp-plugin\obj\Debug\bridge-c-sharp-plugin.pdb
