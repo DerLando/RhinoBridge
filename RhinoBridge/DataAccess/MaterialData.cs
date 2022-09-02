@@ -59,7 +59,7 @@ namespace RhinoBridge.DataAccess
             var id = _doc.Objects.AddSphere(sphere);
 
             // get sphere object
-            var sphereObject = new ObjRef(id).Object();
+            var sphereObject = new ObjRef(_doc, id).Object();
 
             // assign material
             sphereObject.Attributes.MaterialSource = ObjectMaterialSource.MaterialFromObject;
